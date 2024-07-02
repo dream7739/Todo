@@ -22,6 +22,8 @@
 		8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */; };
 		8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */; };
 		8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */; };
+		8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB12C341EF100B05944 /* TodoDateViewController.swift */; };
+		8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB32C342BB200B05944 /* RealmModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContentTableViewCell.swift; sourceTree = "<group>"; };
 		8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
+		8842DAB12C341EF100B05944 /* TodoDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDateViewController.swift; sourceTree = "<group>"; };
+		8842DAB32C342BB200B05944 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,8 @@
 				8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */,
 				8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */,
 				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
+				8842DAB12C341EF100B05944 /* TodoDateViewController.swift */,
+				8842DAB32C342BB200B05944 /* RealmModel.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -172,10 +178,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */,
+				8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */,
 				8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */,
 				8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */,
 				8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */,
 				8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */,
+				8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */,
 				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
 				8837DDD72C33E99300D3656A /* Display.swift in Sources */,
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,

@@ -17,7 +17,7 @@ class TodoTitleTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         titleTextField.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(15)
+            make.edges.equalTo(contentView.safeAreaLayoutGuide).inset(15)
         }
     }
     

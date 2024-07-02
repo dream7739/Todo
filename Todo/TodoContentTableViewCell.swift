@@ -17,7 +17,7 @@ class TodoContentTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         contentTextView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(15)
+            make.edges.equalTo(contentView.safeAreaLayoutGuide).inset(15)
             make.height.equalTo(100)
         }
     }
