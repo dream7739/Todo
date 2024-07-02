@@ -24,6 +24,7 @@
 		8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */; };
 		8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB12C341EF100B05944 /* TodoDateViewController.swift */; };
 		8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB32C342BB200B05944 /* RealmModel.swift */; };
+		8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		8842DAB12C341EF100B05944 /* TodoDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDateViewController.swift; sourceTree = "<group>"; };
 		8842DAB32C342BB200B05944 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
 				8842DAB12C341EF100B05944 /* TodoDateViewController.swift */,
 				8842DAB32C342BB200B05944 /* RealmModel.swift */,
+				8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,
 				8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */,
 				8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */,
+				8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
