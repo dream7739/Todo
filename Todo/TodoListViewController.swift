@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-class TodoListViewController: BaseViewController {
+final class TodoListViewController: BaseViewController {
     
-    let tableView = UITableView()
+    private let tableView = UITableView()
 
-    var list: Results<Todo>!
+    private var list: Results<Todo>!
     
-    let realm = try! Realm()
+    private let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +39,29 @@ class TodoListViewController: BaseViewController {
     }
     
     override func configureUI() {
-        let add = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addButtonClicked))
+        let add = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(addButtonClicked)
+        )
         navigationItem.leftBarButtonItem = add
         navigationItem.title = "전체"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func configureTableView(){
-        tableView.rowHeight = 80
+    private func configureTableView(){
+        tableView.rowHeight = 85
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TodoListTableViewCell.self, forCellReuseIdentifier: TodoListTableViewCell.identifier)
+        tableView.register(
+            TodoListTableViewCell.self,
+            forCellReuseIdentifier: TodoListTableViewCell.identifier
+        )
     }
     
     @objc
-    func addButtonClicked(){
+    private func addButtonClicked(){
         let addTodoVC = UINavigationController(rootViewController: AddTodoViewController())
         addTodoVC.modalPresentationStyle = .fullScreen
         present(addTodoVC, animated: true)
@@ -61,7 +69,6 @@ class TodoListViewController: BaseViewController {
 }
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
     }
@@ -79,6 +86,19 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
+            try! self.realm.write {
+                self.realm.delete(self.list[indexPath.row])
+            }
+            
+            tableView.reloadData()
+            completion(true)
+            
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
  
     
 }

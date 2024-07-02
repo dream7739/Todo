@@ -12,8 +12,8 @@ import RealmSwift
 class AddTodoViewController: BaseViewController {
     
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
-    var selectedDate: Date?
     
+    var selectedDate: Date?
     let realm = try! Realm()
     
     override func configureHierarchy() {
@@ -62,8 +62,8 @@ class AddTodoViewController: BaseViewController {
 
         try! realm.write {
             realm.add(todo)
-            print("SUCCESS")
-            print(realm.configuration.fileURL)
+//            print("SUCCESS")
+//            print(realm.configuration.fileURL)
             self.dismiss(animated: true)
         }
     }

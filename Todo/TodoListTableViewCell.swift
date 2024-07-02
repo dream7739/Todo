@@ -21,17 +21,18 @@ class TodoListTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         titleLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(10)
         }
         
         contentLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
         deadlineLabel.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(4)
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
     }
     
