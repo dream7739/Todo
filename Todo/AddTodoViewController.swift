@@ -13,7 +13,9 @@ class AddTodoViewController: BaseViewController {
     
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
     var selectedDate: Date?
- 
+    
+    let realm = try! Realm()
+    
     override func configureHierarchy() {
         view.addSubview(tableView)
     }
@@ -34,6 +36,7 @@ class AddTodoViewController: BaseViewController {
         
         navigationItem.leftBarButtonItem = cancel
         navigationItem.rightBarButtonItem = add
+        navigationItem.rightBarButtonItem?.isEnabled = false
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,10 +53,33 @@ class AddTodoViewController: BaseViewController {
     
     @objc
     func addButtonClicked(){
-        //제목, 메모, 마감일
+        let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
+        let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
+        let title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
+        let content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let todo = Todo(title: title, content: content, deadLine: selectedDate)
+
+        try! realm.write {
+            realm.add(todo)
+            print("SUCCESS")
+            print(realm.configuration.fileURL)
+            self.dismiss(animated: true)
+        }
     }
-    
 }
+
+extension AddTodoViewController {
+    @objc func titleTextFieldChanged(sender: UITextField){
+        guard let title = sender.text?.trimmingCharacters(in: .whitespaces), title.isEmpty else{
+            navigationItem.rightBarButtonItem?.isEnabled = true
+            return
+        }
+        
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+}
+
 
 extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,8 +107,9 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }else{
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: TodoTitleTableViewCell.identifier, for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: TodoTitleTableViewCell.identifier, for: indexPath) as! TodoTitleTableViewCell
                 cell.selectionStyle = .none
+                cell.titleTextField.addTarget(self, action: #selector(titleTextFieldChanged), for: .editingChanged)
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: TodoContentTableViewCell.identifier, for: indexPath)
@@ -94,7 +121,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 { 
+        if indexPath.section == 1 {
             let todoDateVC = TodoDateViewController()
             todoDateVC.dateSender = { date in
                 self.selectedDate = date
