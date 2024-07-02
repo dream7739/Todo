@@ -45,11 +45,34 @@ final class TodoListViewController: BaseViewController {
             target: self,
             action: #selector(addButtonClicked)
         )
+        
+        let sort = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        
+        let title = UIAction(title: "제목순", handler: { _ in
+            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "title", ascending: true)
+            self.tableView.reloadData()
+        })
+        
+        
+        let deadLine = UIAction(title: "마감일순", handler: { _ in
+            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "deadLine", ascending: true)
+            self.tableView.reloadData()
+        })
+        
+        let buttonMenu = UIMenu(title: "", children: [title, deadLine])
+        sort.menu = buttonMenu
+        
         navigationItem.leftBarButtonItem = add
+        navigationItem.rightBarButtonItem = sort
         navigationItem.title = "전체"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
+
     private func configureTableView(){
         tableView.rowHeight = 85
         tableView.delegate = self

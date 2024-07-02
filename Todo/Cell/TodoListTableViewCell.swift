@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TodoListTableViewCell: BaseTableViewCell {
+final class TodoListTableViewCell: BaseTableViewCell {
     let titleLabel = UILabel()
     let contentLabel = UILabel()
     let deadlineLabel = UILabel()

@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-class AddTodoViewController: BaseViewController {
+final class AddTodoViewController: BaseViewController {
     
-    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    var selectedDate: Date?
-    let realm = try! Realm()
+    private var selectedDate: Date?
+    private let realm = try! Realm()
     
     override func configureHierarchy() {
         view.addSubview(tableView)
@@ -24,7 +24,6 @@ class AddTodoViewController: BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        
     }
     
     override func configureUI() {
@@ -46,13 +45,13 @@ class AddTodoViewController: BaseViewController {
     }
     
     @objc
-    func cancelButtonClicked(){
+    private func cancelButtonClicked(){
         dismiss(animated: true)
     }
     
     
     @objc
-    func addButtonClicked(){
+    private func addButtonClicked(){
         let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
         let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
         let title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
@@ -62,16 +61,15 @@ class AddTodoViewController: BaseViewController {
 
         try! realm.write {
             realm.add(todo)
-//            print("SUCCESS")
-//            print(realm.configuration.fileURL)
             self.dismiss(animated: true)
         }
     }
 }
 
 extension AddTodoViewController {
-    @objc func titleTextFieldChanged(sender: UITextField){
-        guard let title = sender.text?.trimmingCharacters(in: .whitespaces), title.isEmpty else{
+    @objc 
+    private func titleTextFieldChanged(sender: UITextField){
+        guard let title = sender.text?.trimmingCharacters(in: .whitespaces).isEmpty else{
             navigationItem.rightBarButtonItem?.isEnabled = true
             return
         }

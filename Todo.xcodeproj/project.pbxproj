@@ -80,24 +80,72 @@
 		8837DDB22C33E22900D3656A /* Todo */ = {
 			isa = PBXGroup;
 			children = (
+				8842DABD2C343B0E00B05944 /* Database */,
+				8842DABC2C343B0700B05944 /* Base */,
+				8842DABB2C343AFA00B05944 /* Constant */,
+				8842DABA2C343AEE00B05944 /* Protocol */,
+				8842DAB92C343AD200B05944 /* ViewController */,
+				8842DAB72C343AC000B05944 /* Cell */,
 				8837DDB32C33E22900D3656A /* AppDelegate.swift */,
 				8837DDB52C33E22900D3656A /* SceneDelegate.swift */,
 				8837DDBC2C33E22B00D3656A /* Assets.xcassets */,
 				8837DDBE2C33E22B00D3656A /* LaunchScreen.storyboard */,
 				8837DDC12C33E22B00D3656A /* Info.plist */,
-				8837DDC72C33E2C700D3656A /* BaseViewController.swift */,
-				8837DDC92C33E31600D3656A /* AddTodoViewController.swift */,
-				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
-				8837DDD62C33E99300D3656A /* Display.swift */,
-				8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */,
-				8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */,
-				8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */,
-				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
-				8842DAB12C341EF100B05944 /* TodoDateViewController.swift */,
-				8842DAB32C342BB200B05944 /* RealmModel.swift */,
-				8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */,
 			);
 			path = Todo;
+			sourceTree = "<group>";
+		};
+		8842DAB72C343AC000B05944 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */,
+				8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */,
+				8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		8842DAB92C343AD200B05944 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8842DAB12C341EF100B05944 /* TodoDateViewController.swift */,
+				8837DDC92C33E31600D3656A /* AddTodoViewController.swift */,
+				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		8842DABA2C343AEE00B05944 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		8842DABB2C343AFA00B05944 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				8837DDD62C33E99300D3656A /* Display.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		8842DABC2C343B0700B05944 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */,
+				8837DDC72C33E2C700D3656A /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		8842DABD2C343B0E00B05944 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				8842DAB32C342BB200B05944 /* RealmModel.swift */,
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
