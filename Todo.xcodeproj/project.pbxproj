@@ -9,21 +9,26 @@
 /* Begin PBXBuildFile section */
 		8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDB32C33E22900D3656A /* AppDelegate.swift */; };
 		8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDB52C33E22900D3656A /* SceneDelegate.swift */; };
-		8837DDB82C33E22900D3656A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDB72C33E22900D3656A /* ViewController.swift */; };
-		8837DDBB2C33E22900D3656A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 8837DDBA2C33E22900D3656A /* Base */; };
 		8837DDBD2C33E22B00D3656A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8837DDBC2C33E22B00D3656A /* Assets.xcassets */; };
 		8837DDC02C33E22B00D3656A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 8837DDBF2C33E22B00D3656A /* Base */; };
+		8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDC72C33E2C700D3656A /* BaseViewController.swift */; };
+		8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDC92C33E31600D3656A /* AddTodoViewController.swift */; };
+		8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDCB2C33E32400D3656A /* TodoListViewController.swift */; };
+		8837DDCF2C33E53800D3656A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDCE2C33E53800D3656A /* RealmSwift */; };
+		8837DDD22C33E54500D3656A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD12C33E54500D3656A /* SnapKit */; };
+		8837DDD52C33E57200D3656A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD42C33E57200D3656A /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8837DDB02C33E22900D3656A /* Todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8837DDB32C33E22900D3656A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8837DDB52C33E22900D3656A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8837DDB72C33E22900D3656A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		8837DDBA2C33E22900D3656A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8837DDBC2C33E22B00D3656A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8837DDBF2C33E22B00D3656A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8837DDC12C33E22B00D3656A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8837DDC72C33E2C700D3656A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		8837DDC92C33E31600D3656A /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
+		8837DDCB2C33E32400D3656A /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8837DDD52C33E57200D3656A /* Toast in Frameworks */,
+				8837DDCF2C33E53800D3656A /* RealmSwift in Frameworks */,
+				8837DDD22C33E54500D3656A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,11 +66,12 @@
 			children = (
 				8837DDB32C33E22900D3656A /* AppDelegate.swift */,
 				8837DDB52C33E22900D3656A /* SceneDelegate.swift */,
-				8837DDB72C33E22900D3656A /* ViewController.swift */,
-				8837DDB92C33E22900D3656A /* Main.storyboard */,
 				8837DDBC2C33E22B00D3656A /* Assets.xcassets */,
 				8837DDBE2C33E22B00D3656A /* LaunchScreen.storyboard */,
 				8837DDC12C33E22B00D3656A /* Info.plist */,
+				8837DDC72C33E2C700D3656A /* BaseViewController.swift */,
+				8837DDC92C33E31600D3656A /* AddTodoViewController.swift */,
+				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -83,6 +92,11 @@
 			dependencies = (
 			);
 			name = Todo;
+			packageProductDependencies = (
+				8837DDCE2C33E53800D3656A /* RealmSwift */,
+				8837DDD12C33E54500D3656A /* SnapKit */,
+				8837DDD42C33E57200D3656A /* Toast */,
+			);
 			productName = Todo;
 			productReference = 8837DDB02C33E22900D3656A /* Todo.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +125,11 @@
 				Base,
 			);
 			mainGroup = 8837DDA72C33E22900D3656A;
+			packageReferences = (
+				8837DDCD2C33E53800D3656A /* XCRemoteSwiftPackageReference "realm-swift" */,
+				8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
 			productRefGroup = 8837DDB12C33E22900D3656A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +146,6 @@
 			files = (
 				8837DDBD2C33E22B00D3656A /* Assets.xcassets in Resources */,
 				8837DDC02C33E22B00D3656A /* Base in Resources */,
-				8837DDBB2C33E22900D3656A /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +156,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8837DDB82C33E22900D3656A /* ViewController.swift in Sources */,
+				8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */,
 				8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */,
 				8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */,
+				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
+				8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		8837DDB92C33E22900D3656A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8837DDBA2C33E22900D3656A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8837DDBE2C33E22B00D3656A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -296,9 +308,9 @@
 				INFOPLIST_FILE = Todo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,9 +318,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jm.Todo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -323,9 +339,9 @@
 				INFOPLIST_FILE = Todo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,9 +349,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jm.Todo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -361,6 +381,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8837DDCD2C33E53800D3656A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.52.1;
+			};
+		};
+		8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8837DDCE2C33E53800D3656A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8837DDCD2C33E53800D3656A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		8837DDD12C33E54500D3656A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		8837DDD42C33E57200D3656A /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8837DDA82C33E22900D3656A /* Project object */;
 }
