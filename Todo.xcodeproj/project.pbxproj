@@ -17,6 +17,11 @@
 		8837DDCF2C33E53800D3656A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDCE2C33E53800D3656A /* RealmSwift */; };
 		8837DDD22C33E54500D3656A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD12C33E54500D3656A /* SnapKit */; };
 		8837DDD52C33E57200D3656A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD42C33E57200D3656A /* Toast */; };
+		8837DDD72C33E99300D3656A /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDD62C33E99300D3656A /* Display.swift */; };
+		8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */; };
+		8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */; };
+		8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */; };
+		8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +34,11 @@
 		8837DDC72C33E2C700D3656A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		8837DDC92C33E31600D3656A /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
 		8837DDCB2C33E32400D3656A /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
+		8837DDD62C33E99300D3656A /* Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
+		8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTitleTableViewCell.swift; sourceTree = "<group>"; };
+		8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContentTableViewCell.swift; sourceTree = "<group>"; };
+		8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +82,11 @@
 				8837DDC72C33E2C700D3656A /* BaseViewController.swift */,
 				8837DDC92C33E31600D3656A /* AddTodoViewController.swift */,
 				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
+				8837DDD62C33E99300D3656A /* Display.swift */,
+				8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */,
+				8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */,
+				8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */,
+				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -156,10 +171,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */,
 				8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */,
+				8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */,
 				8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */,
 				8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */,
 				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
+				8837DDD72C33E99300D3656A /* Display.swift in Sources */,
+				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,
+				8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */,
 				8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

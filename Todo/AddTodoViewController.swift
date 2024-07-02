@@ -23,21 +23,44 @@ class AddTodoViewController: BaseViewController {
     }
     
     override func configureUI() {
-        tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "todoCell")
+        tableView.register(TodoTitleTableViewCell.self, forCellReuseIdentifier: TodoTitleTableViewCell.identifier)
+        tableView.register(TodoContentTableViewCell.self, forCellReuseIdentifier: TodoContentTableViewCell.identifier)
     }
 }
 
 extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Display.TodoTitle.allCases.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if section == 0 {
+            return 2
+        }else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "todoCell")!
-        cell.textLabel?.text = "HI"
-        return cell
+        if (1...4).contains(indexPath.section){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "todoCell")!
+            cell.textLabel?.text = Display.TodoTitle.allCases[indexPath.section].rawValue
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        }else{
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: TodoTitleTableViewCell.identifier, for: indexPath)
+                cell.selectionStyle = .none
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: TodoContentTableViewCell.identifier, for: indexPath)
+                cell.selectionStyle = .none
+                return cell
+            }
+        }
+        
     }
 }
