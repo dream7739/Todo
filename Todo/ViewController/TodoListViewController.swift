@@ -40,20 +40,6 @@ final class TodoListViewController: BaseViewController {
     }
     
     override func configureUI() {
-        let add = UIBarButtonItem(
-            image: UIImage(systemName: "plus"),
-            style: .plain,
-            target: self,
-            action: #selector(addButtonClicked)
-        )
-        
-        let sort = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
-            style: .plain,
-            target: self,
-            action: nil
-        )
-        
         let title = UIAction(title: "제목순", handler: { _ in
             self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "title", ascending: true)
             self.tableView.reloadData()
@@ -65,10 +51,9 @@ final class TodoListViewController: BaseViewController {
             self.tableView.reloadData()
         })
         
-        let buttonMenu = UIMenu(title: "", children: [title, deadLine])
-        sort.menu = buttonMenu
+        let menu = UIMenu(title: "", children: [title, deadLine])
         
-        navigationItem.leftBarButtonItem = add
+        let sort = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
         navigationItem.rightBarButtonItem = sort
         navigationItem.title = "전체"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -84,12 +69,7 @@ final class TodoListViewController: BaseViewController {
         )
     }
     
-    @objc
-    private func addButtonClicked(){
-        let addTodoVC = UINavigationController(rootViewController: AddTodoViewController())
-        addTodoVC.modalPresentationStyle = .fullScreen
-        present(addTodoVC, animated: true)
-    }
+
 }
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {

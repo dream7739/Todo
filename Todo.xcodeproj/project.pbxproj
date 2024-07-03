@@ -27,6 +27,10 @@
 		8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */; };
 		88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B943E62C35375A007CA517 /* TodoTagViewController.swift */; };
 		88DCE1B82C35520C0045E472 /* TodoPriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */; };
+		88DCE1BD2C356BE90045E472 /* TodoMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */; };
+		88DCE1BF2C3571660045E472 /* TodoMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1BE2C3571660045E472 /* TodoMainCollectionViewCell.swift */; };
+		88DCE1C12C3571800045E472 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1C02C3571800045E472 /* BaseCollectionViewCell.swift */; };
+		88DCE1C32C3575CB0045E472 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1C22C3575CB0045E472 /* Design.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
 		88B943E62C35375A007CA517 /* TodoTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTagViewController.swift; sourceTree = "<group>"; };
 		88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPriorityViewController.swift; sourceTree = "<group>"; };
+		88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoMainViewController.swift; sourceTree = "<group>"; };
+		88DCE1BE2C3571660045E472 /* TodoMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoMainCollectionViewCell.swift; sourceTree = "<group>"; };
+		88DCE1C02C3571800045E472 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		88DCE1C22C3575CB0045E472 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +113,7 @@
 				8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */,
 				8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */,
 				8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */,
+				88DCE1BE2C3571660045E472 /* TodoMainCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -117,6 +126,7 @@
 				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
 				88B943E62C35375A007CA517 /* TodoTagViewController.swift */,
 				88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */,
+				88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -133,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				8837DDD62C33E99300D3656A /* Display.swift */,
+				88DCE1C22C3575CB0045E472 /* Design.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -142,6 +153,7 @@
 			children = (
 				8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */,
 				8837DDC72C33E2C700D3656A /* BaseViewController.swift */,
+				88DCE1C02C3571800045E472 /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -235,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */,
+				88DCE1BD2C356BE90045E472 /* TodoMainViewController.swift in Sources */,
 				8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */,
 				8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */,
 				8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */,
@@ -242,7 +255,10 @@
 				8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */,
 				8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */,
 				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
+				88DCE1BF2C3571660045E472 /* TodoMainCollectionViewCell.swift in Sources */,
 				8837DDD72C33E99300D3656A /* Display.swift in Sources */,
+				88DCE1C32C3575CB0045E472 /* Design.swift in Sources */,
+				88DCE1C12C3571800045E472 /* BaseCollectionViewCell.swift in Sources */,
 				88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */,
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,
 				88DCE1B82C35520C0045E472 /* TodoPriorityViewController.swift in Sources */,

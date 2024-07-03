@@ -155,7 +155,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Display.TodoTitle.allCases.count
+        return Display.AddOption.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -169,7 +169,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (1...4).contains(indexPath.section){
             let cell = UITableViewCell(style: .value1, reuseIdentifier: "todoCell")
-            cell.textLabel?.text = Display.TodoTitle.allCases[indexPath.section].rawValue
+            cell.textLabel?.text = Display.AddOption.allCases[indexPath.section].rawValue
             cell.accessoryType = .disclosureIndicator
             
             if let selectedDate, indexPath.section == 1 {
