@@ -27,7 +27,13 @@ final class AddTodoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(receivePriority), name: NSNotification.Name("sendPriority"), object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receivePriority),
+            name: NSNotification.Name("sendPriority"),
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,7 +106,13 @@ extension AddTodoViewController {
         let title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
         let content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        let todo = Todo(title: title, content: content, deadLine: selectedDate)
+        let todo = Todo(
+            title: title,
+            content: content,
+            deadLine: selectedDate,
+            hashTag: tagText,
+            priority: priorityText
+        )
         
         try! realm.write {
             realm.add(todo)

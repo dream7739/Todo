@@ -21,6 +21,7 @@ final class TodoListViewController: BaseViewController {
         super.viewDidLoad()
         list =  realm.objects(Todo.self)
         configureTableView()
+        print(realm.configuration.fileURL)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,12 +101,29 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.identifier) as! TodoListTableViewCell
         let data = list[indexPath.row]
-        cell.titleLabel.text = data.title
+        let titleText = data.title
         cell.contentLabel.text = data.content
         
         let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "yyyy.MM.dd"
+        dataFormatter.dateFormat = "yyyy.MM.dd."
         cell.deadlineLabel.text = dataFormatter.string(for: data.deadLine)
+        
+        if let tag = data.hashTag {
+            cell.tagLabel.text = "#" + tag
+        }
+        
+        if let priority = data.priority {
+            if priority == "높음" {
+                cell.titleLabel.text = "⭐️ " + titleText
+            }else if priority == "보통"{
+                cell.titleLabel.text = "⭐️⭐️ " + titleText
+            }else{
+                cell.titleLabel.text = "⭐️ " + titleText
+            }
+        }else{
+            cell.titleLabel.text = titleText
+        }
+        
         return cell
     }
     

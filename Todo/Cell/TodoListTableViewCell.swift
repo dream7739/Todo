@@ -9,36 +9,45 @@ import UIKit
 import SnapKit
 
 final class TodoListTableViewCell: BaseTableViewCell {
+    let stackView = UIStackView()
+    let subStackView = UIStackView()
     let titleLabel = UILabel()
     let contentLabel = UILabel()
     let deadlineLabel = UILabel()
+    let tagLabel = UILabel()
     
     override func configureHierarchy() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(contentLabel)
-        contentView.addSubview(deadlineLabel)
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(contentLabel)
+        stackView.addArrangedSubview(subStackView)
+        subStackView.addArrangedSubview(deadlineLabel)
+        subStackView.addArrangedSubview(tagLabel)
     }
     
     override func configureLayout() {
-        titleLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
-            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(10)
-        }
-        
-        contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+        stackView.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(10)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
-        
+      
         deadlineLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).offset(4)
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+            make.width.equalTo(74)
         }
     }
     
     override func configureUI() {
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        subStackView.axis = .horizontal
+        subStackView.spacing = 2
+        subStackView.distribution = .fillProportionally
+        subStackView.alignment = .leading
+        
         titleLabel.font = .boldSystemFont(ofSize: 17)
         contentLabel.font = .systemFont(ofSize: 14)
         deadlineLabel.font = .systemFont(ofSize: 13)
+        tagLabel.font = .boldSystemFont(ofSize: 13)
+        tagLabel.textColor = .systemBlue
     }
 }

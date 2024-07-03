@@ -21,4 +21,8 @@ final class TodoContentTableViewCell: BaseTableViewCell {
         }
     }
     
+    override func configureUI() {
+        contentTextView.isScrollEnabled = false
+    }
+    
 }
