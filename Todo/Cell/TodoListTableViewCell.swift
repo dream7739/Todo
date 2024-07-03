@@ -32,7 +32,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         }
       
         deadlineLabel.snp.makeConstraints { make in
-            make.width.equalTo(74)
+            make.width.equalTo(78)
         }
     }
     
@@ -41,8 +41,6 @@ final class TodoListTableViewCell: BaseTableViewCell {
         stackView.spacing = 4
         subStackView.axis = .horizontal
         subStackView.spacing = 2
-        subStackView.distribution = .fillProportionally
-        subStackView.alignment = .leading
         
         titleLabel.font = .boldSystemFont(ofSize: 17)
         contentLabel.font = .systemFont(ofSize: 14)

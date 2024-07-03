@@ -23,5 +23,6 @@ final class TodoTitleTableViewCell: BaseTableViewCell {
     
     override func configureUI() {
         titleTextField.placeholder = "제목"
+        titleTextField.font = .systemFont(ofSize: 13)
     }
 }

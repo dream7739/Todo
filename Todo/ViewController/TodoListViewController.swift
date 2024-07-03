@@ -84,10 +84,14 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         let titleText = data.title
         cell.contentLabel.text = data.content
         
-        let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "yyyy.MM.dd."
-        cell.deadlineLabel.text = dataFormatter.string(for: data.deadLine)
-        
+        if let deadLine = data.deadLine {
+            let dataFormatter = DateFormatter()
+            dataFormatter.dateFormat = "yyyy.MM.dd."
+            cell.deadlineLabel.text = dataFormatter.string(for: deadLine)
+        }else{
+            cell.deadlineLabel.isHidden = true
+        }
+       
         if let tag = data.hashTag {
             cell.tagLabel.text = "#" + tag
         }
@@ -121,5 +125,12 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [delete])
     }
  
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let addTodoVC = AddTodoViewController()
+        addTodoVC.viewType = .editTodo
+        addTodoVC.todo = list[indexPath.row]
+        navigationController?.pushViewController(addTodoVC, animated: true)
+        
+    }
     
 }

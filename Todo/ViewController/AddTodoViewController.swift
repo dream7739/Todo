@@ -17,12 +17,10 @@ final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    private var selectedDate: Date?
+    var todo = Todo()
     
-    private var tagText: String?
-    
-    private var priorityText: String?
-    
+    var viewType = Display.ViewType.addTodo
+  
     private let realm = try! Realm()
     
     override func viewDidLoad() {
@@ -40,21 +38,21 @@ final class AddTodoViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         DispatchQueue.main.async {
-            if let _ = self.selectedDate {
+            if let _ = self.todo.deadLine {
                 self.tableView.reloadRows(
                     at: [IndexPath(row: 0, section: 1)],
                     with: .none
                 )
             }
             
-            if let _ = self.tagText {
+            if let _ = self.todo.hashTag {
                 self.tableView.reloadRows(
                     at: [IndexPath(row: 0, section: 2)],
                     with: .none
                 )
             }
             
-            if let _ = self.priorityText {
+            if let _ = self.todo.priority {
                 self.tableView.reloadRows(
                     at: [IndexPath(row: 0, section: 3)],
                     with: .none
@@ -74,15 +72,22 @@ final class AddTodoViewController: BaseViewController {
     }
     
     override func configureUI() {
-        navigationItem.title = "새로운 할 일"
+        navigationItem.title = viewType.rawValue
+        navigationItem.largeTitleDisplayMode = .never
         
-        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelButtonClicked))
-        
-        let add = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(addButtonClicked))
-        
-        navigationItem.leftBarButtonItem = cancel
-        navigationItem.rightBarButtonItem = add
-        navigationItem.rightBarButtonItem?.isEnabled = false
+        switch viewType {
+        case .editTodo:
+            let add = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonClicked))
+            navigationItem.rightBarButtonItem = add
+        case .addTodo:
+            let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelButtonClicked))
+            
+            let add = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(saveButtonClicked))
+            
+            navigationItem.leftBarButtonItem = cancel
+            navigationItem.rightBarButtonItem = add
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -96,28 +101,41 @@ final class AddTodoViewController: BaseViewController {
 extension AddTodoViewController {
     @objc
     private func cancelButtonClicked(){
-        dismiss(animated: true)
+        switch viewType {
+        case .editTodo:
+            navigationController?.popViewController(animated: true)
+        case .addTodo:
+            dismiss(animated: true)
+        }
     }
     
     @objc
-    private func addButtonClicked(){
+    private func saveButtonClicked(){
         let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
         let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
         let title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
         let content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        let todo = Todo(
-            title: title,
-            content: content,
-            deadLine: selectedDate,
-            hashTag: tagText,
-            priority: priorityText
-        )
-        
         try! realm.write {
-            realm.add(todo)
-            self.dismiss(animated: true)
+            todo.title = title
+            todo.content = content
         }
+        
+        switch viewType {
+        case .editTodo:
+            try! realm.write {
+                realm.add(todo, update: .modified)
+            }
+            navigationController?.popViewController(animated: true)
+        case .addTodo:
+            if viewType == .addTodo {
+                try! realm.write {
+                    realm.add(todo)
+                }
+            }
+            dismiss(animated: true)
+        }
+        
     }
     
     @objc
@@ -133,15 +151,19 @@ extension AddTodoViewController {
     
     @objc
     private func receivePriority(notification: NSNotification){
-        guard let text = notification.userInfo?["priority"] as? String else { return }
-        priorityText = text
+        guard let priority = notification.userInfo?["priority"] as? String else { return }
+        try! realm.write{
+            todo.priority = priority
+        }
     }
     
 }
 
 extension AddTodoViewController: TagTextSendDelegate {
-    func tagTextSend(_ text: String) {
-        tagText = text
+    func tagTextSend(_ hashTag: String) {
+        try! realm.write{
+            todo.hashTag = hashTag
+        }
     }
 }
 
@@ -172,49 +194,61 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.text = Display.AddOption.allCases[indexPath.section].rawValue
             cell.accessoryType = .disclosureIndicator
             
-            if let selectedDate, indexPath.section == 1 {
+            if let deadLine = todo.deadLine, indexPath.section == 1 {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy.MM.dd"
-                cell.detailTextLabel?.text = dateFormatter.string(from: selectedDate)
+                cell.detailTextLabel?.text = dateFormatter.string(from: deadLine)
             }
             
-            if let tagText, indexPath.section == 2 {
-                cell.detailTextLabel?.text = tagText
+            if let hashTag = todo.hashTag, indexPath.section == 2 {
+                cell.detailTextLabel?.text = hashTag
             }
             
-            if let priorityText, indexPath.section == 3 {
-                cell.detailTextLabel?.text = priorityText
+            if let priority = todo.priority, indexPath.section == 3 {
+                cell.detailTextLabel?.text = priority
             }
             
             return cell
         }else{
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: TodoTitleTableViewCell.identifier, for: indexPath) as! TodoTitleTableViewCell
+                
+                if !todo.title.isEmpty {
+                    cell.titleTextField.text = todo.title
+                }
+                
                 cell.selectionStyle = .none
                 cell.titleTextField.addTarget(self, action: #selector(titleTextFieldChanged), for: .editingChanged)
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: TodoContentTableViewCell.identifier, for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: TodoContentTableViewCell.identifier, for: indexPath) as! TodoContentTableViewCell
+                
+                if let content = todo.content, !content.isEmpty {
+                    cell.contentTextView.text = content
+                }
+                
                 cell.selectionStyle = .none
                 return cell
             }
         }
     }
     
-    //1: 날짜,  2. 태그, 3: 우선순위, 4: 이미지
+    //1: 날짜, 2. 태그, 3: 우선순위, 4: 이미지
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 1:
             let todoDateVC = TodoDateViewController()
             todoDateVC.dateSender = { date in
-                self.selectedDate = date
+                try! self.realm.write {
+                    self.todo.deadLine = date
+                }
             }
             navigationController?.pushViewController(todoDateVC, animated: true)
         case 2:
             let todoTagVC = TodoTagViewController()
             todoTagVC.delegate = self
-            if let tagText {
-                todoTagVC.editTagText = tagText
+            if let hashTag = todo.hashTag {
+                todoTagVC.editTagText = hashTag
             }
             navigationController?.pushViewController(todoTagVC, animated: true)
         case 3:

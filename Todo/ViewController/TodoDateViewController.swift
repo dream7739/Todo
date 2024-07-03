@@ -14,7 +14,6 @@ class TodoDateViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print(picker.date)
         dateSender?(picker.date)
     }
     
