@@ -9,12 +9,39 @@ import UIKit
 import SnapKit
 import RealmSwift
 
+protocol TagTextSendDelegate: AnyObject {
+    func tagTextSend(_ text: String)
+}
+
 final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     private var selectedDate: Date?
+    
+    private var tagText: String?
+    
     private let realm = try! Realm()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.main.async {
+            if let _ = self.selectedDate {
+                self.tableView.reloadRows(
+                    at: [IndexPath(row: 0, section: 1)],
+                    with: .none
+                )
+            }
+            
+            if let _ = self.tagText {
+                self.tableView.reloadRows(
+                    at: [IndexPath(row: 0, section: 2)],
+                    with: .none
+                )
+            }
+        }
+    }
+
     
     override func configureHierarchy() {
         view.addSubview(tableView)
@@ -44,11 +71,13 @@ final class AddTodoViewController: BaseViewController {
         tableView.register(TodoContentTableViewCell.self, forCellReuseIdentifier: TodoContentTableViewCell.identifier)
     }
     
+}
+
+extension AddTodoViewController {
     @objc
     private func cancelButtonClicked(){
         dismiss(animated: true)
     }
-    
     
     @objc
     private func addButtonClicked(){
@@ -58,26 +87,30 @@ final class AddTodoViewController: BaseViewController {
         let content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
         let todo = Todo(title: title, content: content, deadLine: selectedDate)
-
+        
         try! realm.write {
             realm.add(todo)
             self.dismiss(animated: true)
         }
     }
-}
-
-extension AddTodoViewController {
-    @objc 
+    
+    @objc
     private func titleTextFieldChanged(sender: UITextField){
-        guard let title = sender.text?.trimmingCharacters(in: .whitespaces).isEmpty else{
+        guard let _ = sender.text?.trimmingCharacters(in: .whitespaces).isEmpty else{
             navigationItem.rightBarButtonItem?.isEnabled = true
             return
         }
         
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
+    
 }
 
+extension AddTodoViewController: TagTextSendDelegate {
+    func tagTextSend(_ text: String) {
+        tagText = text
+    }
+}
 
 extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -99,7 +132,13 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.accessoryType = .disclosureIndicator
             
             if let selectedDate, indexPath.section == 1 {
-                cell.detailTextLabel?.text = "\(selectedDate)"
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy.MM.dd"
+                cell.detailTextLabel?.text = dateFormatter.string(from: selectedDate)
+            }
+            
+            if let tagText, indexPath.section == 2 {
+                cell.detailTextLabel?.text = tagText
             }
             
             return cell
@@ -118,14 +157,25 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //1: 날짜,  2. 태그, 3: 우선순위, 4: 이미지
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        switch indexPath.section {
+        case 1:
             let todoDateVC = TodoDateViewController()
             todoDateVC.dateSender = { date in
                 self.selectedDate = date
-                self.tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
             }
             navigationController?.pushViewController(todoDateVC, animated: true)
+        case 2:
+            let todoTagVC = TodoTagViewController()
+            todoTagVC.delegate = self
+            if let tagText {
+                todoTagVC.editTagText = tagText
+            }
+            navigationController?.pushViewController(todoTagVC, animated: true)
+        default:
+            print(#function, "invalid section")
         }
     }
 }
+

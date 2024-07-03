@@ -104,7 +104,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.contentLabel.text = data.content
         
         let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "yyyy-MM-dd"
+        dataFormatter.dateFormat = "yyyy.MM.dd"
         cell.deadlineLabel.text = dataFormatter.string(for: data.deadLine)
         return cell
     }
@@ -115,7 +115,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
                 self.realm.delete(self.list[indexPath.row])
             }
             
-            tableView.reloadData()
+            tableView.deleteRows(at: [indexPath], with: .none)
             completion(true)
             
         }

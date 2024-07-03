@@ -25,6 +25,7 @@
 		8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB12C341EF100B05944 /* TodoDateViewController.swift */; };
 		8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB32C342BB200B05944 /* RealmModel.swift */; };
 		8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */; };
+		88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B943E62C35375A007CA517 /* TodoTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		8842DAB12C341EF100B05944 /* TodoDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDateViewController.swift; sourceTree = "<group>"; };
 		8842DAB32C342BB200B05944 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
+		88B943E62C35375A007CA517 /* TodoTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTagViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				8842DAB12C341EF100B05944 /* TodoDateViewController.swift */,
 				8837DDC92C33E31600D3656A /* AddTodoViewController.swift */,
 				8837DDCB2C33E32400D3656A /* TodoListViewController.swift */,
+				88B943E62C35375A007CA517 /* TodoTagViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */,
 				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
 				8837DDD72C33E99300D3656A /* Display.swift in Sources */,
+				88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */,
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,
 				8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */,
 				8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */,
