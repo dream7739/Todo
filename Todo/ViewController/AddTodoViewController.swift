@@ -41,7 +41,7 @@ final class AddTodoViewController: BaseViewController {
             }
         }
     }
-
+    
     
     override func configureHierarchy() {
         view.addSubview(tableView)
@@ -96,12 +96,14 @@ extension AddTodoViewController {
     
     @objc
     private func titleTextFieldChanged(sender: UITextField){
-        guard let _ = sender.text?.trimmingCharacters(in: .whitespaces).isEmpty else{
+        
+        guard let title = sender.text?.trimmingCharacters(in: .whitespaces), title.isEmpty else{
             navigationItem.rightBarButtonItem?.isEnabled = true
             return
         }
         
         navigationItem.rightBarButtonItem?.isEnabled = false
+        
     }
     
 }
@@ -113,6 +115,14 @@ extension AddTodoViewController: TagTextSendDelegate {
 }
 
 extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 && indexPath.row == 1{
+            return 130
+        }
+        
+        return 44
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return Display.TodoTitle.allCases.count
     }
@@ -154,6 +164,8 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
+        
+        
         
     }
     
