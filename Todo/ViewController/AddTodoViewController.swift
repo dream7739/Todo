@@ -21,10 +21,18 @@ final class AddTodoViewController: BaseViewController {
     
     private var tagText: String?
     
+    private var priorityText: String?
+    
     private let realm = try! Realm()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(receivePriority), name: NSNotification.Name("sendPriority"), object: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         DispatchQueue.main.async {
             if let _ = self.selectedDate {
                 self.tableView.reloadRows(
@@ -39,9 +47,15 @@ final class AddTodoViewController: BaseViewController {
                     with: .none
                 )
             }
+            
+            if let _ = self.priorityText {
+                self.tableView.reloadRows(
+                    at: [IndexPath(row: 0, section: 3)],
+                    with: .none
+                )
+            }
         }
     }
-    
     
     override func configureHierarchy() {
         view.addSubview(tableView)
@@ -103,7 +117,12 @@ extension AddTodoViewController {
         }
         
         navigationItem.rightBarButtonItem?.isEnabled = false
-        
+    }
+    
+    @objc
+    private func receivePriority(notification: NSNotification){
+        guard let text = notification.userInfo?["priority"] as? String else { return }
+        priorityText = text
     }
     
 }
@@ -151,6 +170,10 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.detailTextLabel?.text = tagText
             }
             
+            if let priorityText, indexPath.section == 3 {
+                cell.detailTextLabel?.text = priorityText
+            }
+            
             return cell
         }else{
             if indexPath.row == 0 {
@@ -164,9 +187,6 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
-        
-        
-        
     }
     
     //1: 날짜,  2. 태그, 3: 우선순위, 4: 이미지
@@ -185,8 +205,11 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
                 todoTagVC.editTagText = tagText
             }
             navigationController?.pushViewController(todoTagVC, animated: true)
+        case 3:
+            let todoPriorityVC = TodoPriorityViewController()
+            navigationController?.pushViewController(todoPriorityVC, animated: true)
         default:
-            print(#function, "invalid section")
+            return
         }
     }
 }
