@@ -25,6 +25,7 @@
 		8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB12C341EF100B05944 /* TodoDateViewController.swift */; };
 		8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB32C342BB200B05944 /* RealmModel.swift */; };
 		8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */; };
+		88A45F3B2C362065006E871C /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDCE2C33E53800D3656A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B943E62C35375A007CA517 /* TodoTagViewController.swift */; };
 		88DCE1B82C35520C0045E472 /* TodoPriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */; };
 		88DCE1BD2C356BE90045E472 /* TodoMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */; };
@@ -32,6 +33,20 @@
 		88DCE1C12C3571800045E472 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1C02C3571800045E472 /* BaseCollectionViewCell.swift */; };
 		88DCE1C32C3575CB0045E472 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1C22C3575CB0045E472 /* Design.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		88A45F3C2C362065006E871C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				88A45F3B2C362065006E871C /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8837DDB02C33E22900D3656A /* Todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +191,7 @@
 				8837DDAC2C33E22900D3656A /* Sources */,
 				8837DDAD2C33E22900D3656A /* Frameworks */,
 				8837DDAE2C33E22900D3656A /* Resources */,
+				88A45F3C2C362065006E871C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -408,6 +424,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Todo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -420,7 +437,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jm.Todo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jm.TodoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

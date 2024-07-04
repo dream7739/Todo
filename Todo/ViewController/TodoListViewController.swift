@@ -98,7 +98,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let priority = data.priority {
             if priority == "높음" {
-                cell.titleLabel.text = "⭐️ " + titleText
+                cell.titleLabel.text = "⭐️⭐️⭐️ " + titleText
             }else if priority == "보통"{
                 cell.titleLabel.text = "⭐️⭐️ " + titleText
             }else{

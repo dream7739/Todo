@@ -7,13 +7,17 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 final class TodoMainViewController: BaseViewController {
     lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
-
     private let addTodoButton = UIButton()
     private let addListButton = UIButton()
     
+    private var list: Results<Todo>!
+    private let realm = try! Realm()
+    private var countList = Array(repeating: 0, count: 5)
+
     private func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 10
@@ -26,6 +30,20 @@ final class TodoMainViewController: BaseViewController {
             height: (view.bounds.height - spacing * 7 - inset * 2) / 8
         )
         return layout
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        list =  realm.objects(Todo.self)
+    
+        getTodayCount()
+        getTobeCount()
+        getTotalCount()
+//        getFlagCount()
+//        getCompleteCount()
+        
+       
+        print(countList)
     }
     
     override func configureHierarchy() {
@@ -66,17 +84,43 @@ final class TodoMainViewController: BaseViewController {
         todoConfig.title = "새로운 할 일"
         addTodoButton.configuration = todoConfig
         
-        var ListConfig = UIButton.Configuration.plain()
-        ListConfig.title = "목록 추가"
-        addListButton.configuration = ListConfig
+        var listConfig = UIButton.Configuration.plain()
+        listConfig.title = "목록 추가"
+        addListButton.configuration = listConfig
         
         addTodoButton.addTarget(self, action: #selector(addTodoButtonClicked), for: .touchUpInside)
         addListButton.addTarget(self, action: #selector(addListButtonClicked), for: .touchUpInside)
-    
     }
 }
 
 extension TodoMainViewController {
+    func getTodayCount(){
+        let calendar = Calendar.current
+
+        let start = calendar.startOfDay(for: Date())
+        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+        
+        let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
+
+        countList[0] = list.filter(predicate).count
+    }
+    
+    func getTobeCount(){
+        let calendar = Calendar.current
+
+        let today = calendar.startOfDay(for: Date())
+        let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
+        let end = calendar.date(byAdding: .day, value: 2, to: today) ?? Date()
+        
+        let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
+
+        countList[1] = list.filter(predicate).count
+    }
+    
+    func getTotalCount(){
+        countList[2] = list.count
+    }
+    
     @objc
     private func addTodoButtonClicked(){
         let addTodoVC = UINavigationController(rootViewController: AddTodoViewController())
@@ -98,6 +142,7 @@ extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDe
         cell.titleLabel.text = data.rawValue
         cell.iconImage.image = data.iconImage
         cell.iconImage.backgroundColor = data.iconColor
+        cell.countLabel.text = countList[indexPath.item].formatted()
         return cell
     }
     

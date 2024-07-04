@@ -55,6 +55,5 @@ final class TodoMainCollectionViewCell: BaseCollectionViewCell {
     
     override func configureUI() {
         iconImage.image = UIImage(systemName: "person.badge.plus")
-        countLabel.text = "1"
     }
 }
