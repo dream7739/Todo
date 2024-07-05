@@ -7,13 +7,13 @@
 
 import UIKit
 import SnapKit
-import RealmSwift
 
 final class TodoListViewController: BaseViewController {
     
     private let tableView = UITableView()
     
     let repository = RealmRepository()
+    var option: Display.MainOption!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ final class TodoListViewController: BaseViewController {
         
         let sort = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
         navigationItem.rightBarButtonItem = sort
-        navigationItem.title = "전체"
+        navigationItem.title = option.rawValue
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -68,25 +68,24 @@ final class TodoListViewController: BaseViewController {
 
 extension TodoListViewController: CompletDelegate {
     func completeButtonClicked(indexPath: IndexPath) {
-        print(#function)
-        let item = repository.fetchList()[indexPath.row]
+        let item = repository.fetchList(option)[indexPath.row]
         var isComplete = item.isComplete
         isComplete.toggle()
-        repository.editIsComplete(repository.fetchList()[indexPath.row], isComplete: isComplete)
+        repository.editIsComplete(repository.fetchList(option)[indexPath.row], isComplete: isComplete)
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repository.fetchList().count
+        return repository.fetchList(option).count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.identifier) as! TodoListTableViewCell
         
-        let data = repository.fetchList()[indexPath.row]
+        let data = repository.fetchList(option)[indexPath.row]
         cell.delegate = self
         cell.indexPath = indexPath
         cell.isCompleteClicked = data.isComplete
@@ -126,7 +125,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let pin = UIContextualAction(style: .normal, title: "") { view, _, completion in
-            let item = self.repository.fetchList()[indexPath.row]
+            let item = self.repository.fetchList(self.option)[indexPath.row]
             var isFavorite = item.isFavorite
             isFavorite.toggle()
             
@@ -141,7 +140,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let flag = UIContextualAction(style: .normal, title: "깃발") { _, _, completion in
-            let item = self.repository.fetchList()[indexPath.row]
+            let item = self.repository.fetchList(self.option)[indexPath.row]
             var isFlaged = item.isFlaged
             isFlaged.toggle()
             self.repository.editIsFlaged(item, isFlaged: isFlaged)
@@ -152,7 +151,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         flag.backgroundColor = .orange
         
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
-            let item = self.repository.fetchList()[indexPath.row]
+            let item = self.repository.fetchList(self.option)[indexPath.row]
             self.removeImageFromDocument(filename: "\(item.id)")
             self.repository.deleteTodo(item)
             tableView.deleteRows(at: [indexPath], with: .none)
@@ -165,8 +164,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let addTodoVC = AddTodoViewController()
-        
-        let item = repository.fetchList()[indexPath.row]
+        let item = repository.fetchList(option)[indexPath.row]
         addTodoVC.viewType = .editTodo
         addTodoVC.item = item
  

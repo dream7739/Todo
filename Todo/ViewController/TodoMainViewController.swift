@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import RealmSwift
 
 final class TodoMainViewController: BaseViewController {
     lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
@@ -34,6 +33,7 @@ final class TodoMainViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         countList = repository.fetchCountAll()
+        collectionView.reloadData()
     }
     
     override func configureHierarchy() {
@@ -116,6 +116,7 @@ extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let todoListVC = TodoListViewController()
+        todoListVC.option = Display.MainOption.allCases[indexPath.item]
         navigationController?.pushViewController(todoListVC, animated: true)
     }
 }

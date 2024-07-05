@@ -46,8 +46,8 @@ final class TodoListTableViewCell: BaseTableViewCell {
         stackView.addArrangedSubview(subStackView)
         subStackView.addArrangedSubview(deadlineLabel)
         subStackView.addArrangedSubview(tagLabel)
-        imageStackView.addArrangedSubview(pinImage)
         imageStackView.addArrangedSubview(flagImage)
+        imageStackView.addArrangedSubview(pinImage)
     }
     
     override func configureLayout() {

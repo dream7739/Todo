@@ -9,7 +9,6 @@ import UIKit
 import PhotosUI
 import SnapKit
 
-
 protocol TagTextSendDelegate: AnyObject {
     func tagTextSend(_ text: String)
 }

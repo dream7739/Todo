@@ -9,8 +9,13 @@ import Foundation
 import RealmSwift
 
 protocol RealmProtocol {
-    func fetchList() -> Results<Todo>
     func addTodo(_ item: Todo, _ model: TodoModel)
+    func fetchList(_ option: Display.MainOption) -> Results<Todo>
+    func fetchCount(_ option: Display.MainOption) -> Int
+    func fetchCountAll() -> [Int]
     func editTodo(_ item: Todo, _ model: TodoModel)
+    func editIsComplete(_ item: Todo, isComplete: Bool)
+    func editIsFavorite(_ item: Todo, isFavorite: Bool)
+    func editIsFlaged(_ item: Todo, isFlaged: Bool)
     func deleteTodo(_ item: Todo)
 }
