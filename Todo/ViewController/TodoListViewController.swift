@@ -141,6 +141,12 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let flag = UIContextualAction(style: .normal, title: "깃발") { _, _, completion in
+            let item = self.repository.fetchList()[indexPath.row]
+            var isFlaged = item.isFlaged
+            isFlaged.toggle()
+            self.repository.editIsFlaged(item, isFlaged: isFlaged)
+            tableView.reloadData()
+            completion(true)
         }
         
         flag.backgroundColor = .orange
