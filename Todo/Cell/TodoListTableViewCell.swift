@@ -106,6 +106,40 @@ final class TodoListTableViewCell: BaseTableViewCell {
         flagImage.tintColor = .systemOrange
     }
     
+    func configureData(_ data: Todo){
+        isCompleteClicked = data.isComplete
+        contentLabel.text = data.content
+        
+        if let deadLine = data.deadLine {
+            let dataFormatter = DateFormatter()
+            dataFormatter.dateFormat = "yyyy.MM.dd."
+            deadlineLabel.text = dataFormatter.string(for: deadLine)
+        }else{
+            deadlineLabel.isHidden = true
+        }
+        
+        if let tag = data.hashTag {
+            tagLabel.text = "#" + tag
+        }
+        
+        let titleText = data.title
+        
+        if let priority = data.priority {
+            if priority == "높음" {
+                titleLabel.text = "⭐️⭐️⭐️ " + titleText
+            }else if priority == "보통"{
+                titleLabel.text = "⭐️⭐️ " + titleText
+            }else{
+                titleLabel.text = "⭐️ " + titleText
+            }
+        }else{
+            titleLabel.text = titleText
+        }
+        
+        pinImage.isHidden = data.isFavorite ? false : true
+        flagImage.isHidden = data.isFlaged ? false : true
+    }
+    
     @objc func completeButtonClicked(){
         guard let indexPath else { return }
         delegate?.completeButtonClicked(indexPath: indexPath)

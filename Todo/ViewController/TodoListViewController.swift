@@ -132,38 +132,8 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         let data = list[indexPath.row]
         cell.delegate = self
         cell.indexPath = indexPath
-        cell.isCompleteClicked = data.isComplete
-        cell.contentLabel.text = data.content
-        
-        if let deadLine = data.deadLine {
-            let dataFormatter = DateFormatter()
-            dataFormatter.dateFormat = "yyyy.MM.dd."
-            cell.deadlineLabel.text = dataFormatter.string(for: deadLine)
-        }else{
-            cell.deadlineLabel.isHidden = true
-        }
-        
-        if let tag = data.hashTag {
-            cell.tagLabel.text = "#" + tag
-        }
-        
-        let titleText = data.title
-        
-        if let priority = data.priority {
-            if priority == "높음" {
-                cell.titleLabel.text = "⭐️⭐️⭐️ " + data.title
-            }else if priority == "보통"{
-                cell.titleLabel.text = "⭐️⭐️ " + titleText
-            }else{
-                cell.titleLabel.text = "⭐️ " + titleText
-            }
-        }else{
-            cell.titleLabel.text = titleText
-        }
-        
-        cell.pinImage.isHidden = data.isFavorite ? false : true
-        cell.flagImage.isHidden = data.isFlaged ? false : true
-
+        cell.configureData(data)
+      
         return cell
     }
     

@@ -61,6 +61,9 @@ final class TodoMainViewController: BaseViewController {
         navigationItem.title = "전체"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        let calendar = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(calendarButtonClicked))
+        navigationItem.rightBarButtonItem = calendar
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(
@@ -84,6 +87,12 @@ final class TodoMainViewController: BaseViewController {
 }
 
 extension TodoMainViewController {
+    @objc 
+    private func calendarButtonClicked(){
+        let calendarVC = UINavigationController(rootViewController: TodoCalendarViewController())
+        calendarVC.modalPresentationStyle = .fullScreen
+        present(calendarVC, animated: true)
+    }
     
     @objc
     private func addTodoButtonClicked(){

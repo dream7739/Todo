@@ -26,6 +26,10 @@ class RealmRepository: RealmProtocol {
         }
     }
     
+    func fetchList() -> Results<Todo>{
+        return realm.objects(Todo.self)
+    }
+    
     func fetchList(_ option: Display.MainOption) -> Results<Todo>{
         let list = realm.objects(Todo.self)
         
@@ -55,6 +59,18 @@ class RealmRepository: RealmProtocol {
         }
     }
 
+    func fetchList(_ date: Date) -> Results<Todo>{
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: date)
+        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+        let predicate = NSPredicate(
+            format: "deadLine >= %@ && deadLine <= %@",
+            start as NSDate,
+            end as NSDate
+        )
+        return realm.objects(Todo.self).filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
+    }
+    
     func fetchCount(_ option: Display.MainOption) -> Int{
         return fetchList(option).count
     }
