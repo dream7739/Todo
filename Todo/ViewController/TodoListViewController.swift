@@ -39,6 +39,9 @@ final class TodoListViewController: BaseViewController {
     }
     
     override func configureUI() {
+        navigationItem.title = option.rawValue
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let total = UIAction(title: "전체", handler: { _ in
             self.list = self.repository.fetchList(self.option)
             self.tableView.reloadData()
@@ -49,26 +52,51 @@ final class TodoListViewController: BaseViewController {
                 SortDescriptor(keyPath: "isFavorite", ascending: false),
                 SortDescriptor(keyPath: "title", ascending: true)
             ]
-            self.list = self.list.sorted(by: sortProperties)
+            self.list = self.repository.fetchList(self.option).sorted(by: sortProperties)
             self.tableView.reloadData()
         })
-        
         
         let deadLine = UIAction(title: "마감일순", handler: { _ in
             let sortProperties = [
                 SortDescriptor(keyPath: "isFavorite", ascending: false),
                 SortDescriptor(keyPath: "deadLine", ascending: false)
             ]
-            self.list = self.list.sorted(by: sortProperties)
+            self.list = self.repository.fetchList(self.option).sorted(by: sortProperties)
             self.tableView.reloadData()
         })
         
-        let menu = UIMenu(title: "", children: [total, title, deadLine])
+        let high = UIAction(title: "높음", handler: { _ in
+            let sortProperties = [
+                SortDescriptor(keyPath: "isFavorite", ascending: false)
+            ]
+            self.list = self.repository.fetchList(self.option).where { $0.priority == "높음"}.sorted(by: sortProperties)
+            self.tableView.reloadData()
+        })
         
+        
+        let middle = UIAction(title: "보통", handler: { _ in
+            let sortProperties = [
+                SortDescriptor(keyPath: "isFavorite", ascending: false)
+            ]
+            self.list = self.repository.fetchList(self.option).where{ $0.priority == "보통"}.sorted(by: sortProperties)
+            self.tableView.reloadData()
+        })
+        
+        
+        let row = UIAction(title: "낮음", handler: { _ in
+            let sortProperties = [
+                SortDescriptor(keyPath: "isFavorite", ascending: false)
+            ]
+            self.list = self.list.where { $0.priority == "낮음"}.sorted(by: sortProperties)
+            self.tableView.reloadData()
+        })
+
+        let priority = UIMenu(title: "우선순위", children: [high, middle, row])
+        
+        let menu = UIMenu(title: "", options: .displayInline, children: [total, title, deadLine, priority])
         let sort = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
         navigationItem.rightBarButtonItem = sort
-        navigationItem.title = option.rawValue
-        navigationController?.navigationBar.prefersLargeTitles = true
+
     }
 
     private func configureTableView(){
