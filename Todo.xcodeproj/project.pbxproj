@@ -15,18 +15,21 @@
 		8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDC92C33E31600D3656A /* AddTodoViewController.swift */; };
 		8837DDCC2C33E32400D3656A /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDCB2C33E32400D3656A /* TodoListViewController.swift */; };
 		8837DDCF2C33E53800D3656A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDCE2C33E53800D3656A /* RealmSwift */; };
-		8837DDD22C33E54500D3656A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD12C33E54500D3656A /* SnapKit */; };
 		8837DDD52C33E57200D3656A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDD42C33E57200D3656A /* Toast */; };
 		8837DDD72C33E99300D3656A /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDD62C33E99300D3656A /* Display.swift */; };
 		8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDD82C33EB3100D3656A /* TodoTitleTableViewCell.swift */; };
 		8837DDDB2C33EB6900D3656A /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */; };
 		8837DDDD2C33ED1800D3656A /* TodoContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */; };
 		8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */; };
+		883D273D2C36988000501D76 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883D273C2C36988000501D76 /* RealmRepository.swift */; };
+		883D27402C3698DB00501D76 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 883D273F2C3698DB00501D76 /* SnapKit */; };
 		8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB12C341EF100B05944 /* TodoDateViewController.swift */; };
 		8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB32C342BB200B05944 /* RealmModel.swift */; };
 		8842DAB62C3434E000B05944 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */; };
 		88A45F3B2C362065006E871C /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8837DDCE2C33E53800D3656A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B943E62C35375A007CA517 /* TodoTagViewController.swift */; };
+		88BAEBB22C3795210017D334 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BAEBB12C3795210017D334 /* Todo.swift */; };
+		88BAEBB42C37A1150017D334 /* RealmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BAEBB32C37A1150017D334 /* RealmProtocol.swift */; };
 		88DCE1B82C35520C0045E472 /* TodoPriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */; };
 		88DCE1BD2C356BE90045E472 /* TodoMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */; };
 		88DCE1BF2C3571660045E472 /* TodoMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DCE1BE2C3571660045E472 /* TodoMainCollectionViewCell.swift */; };
@@ -63,10 +66,13 @@
 		8837DDDA2C33EB6900D3656A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		8837DDDC2C33ED1800D3656A /* TodoContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContentTableViewCell.swift; sourceTree = "<group>"; };
 		8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
+		883D273C2C36988000501D76 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		8842DAB12C341EF100B05944 /* TodoDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDateViewController.swift; sourceTree = "<group>"; };
 		8842DAB32C342BB200B05944 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		8842DAB52C3434E000B05944 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
 		88B943E62C35375A007CA517 /* TodoTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTagViewController.swift; sourceTree = "<group>"; };
+		88BAEBB12C3795210017D334 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		88BAEBB32C37A1150017D334 /* RealmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmProtocol.swift; sourceTree = "<group>"; };
 		88DCE1B72C35520C0045E472 /* TodoPriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPriorityViewController.swift; sourceTree = "<group>"; };
 		88DCE1BC2C356BE90045E472 /* TodoMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoMainViewController.swift; sourceTree = "<group>"; };
 		88DCE1BE2C3571660045E472 /* TodoMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoMainCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -79,9 +85,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				883D27402C3698DB00501D76 /* SnapKit in Frameworks */,
 				8837DDD52C33E57200D3656A /* Toast in Frameworks */,
 				8837DDCF2C33E53800D3656A /* RealmSwift in Frameworks */,
-				8837DDD22C33E54500D3656A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +113,7 @@
 		8837DDB22C33E22900D3656A /* Todo */ = {
 			isa = PBXGroup;
 			children = (
+				88BAEBB02C37951D0017D334 /* Model */,
 				8842DABD2C343B0E00B05944 /* Database */,
 				8842DABC2C343B0700B05944 /* Base */,
 				8842DABB2C343AFA00B05944 /* Constant */,
@@ -150,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
+				88BAEBB32C37A1150017D334 /* RealmProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -177,8 +185,17 @@
 			isa = PBXGroup;
 			children = (
 				8842DAB32C342BB200B05944 /* RealmModel.swift */,
+				883D273C2C36988000501D76 /* RealmRepository.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		88BAEBB02C37951D0017D334 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88BAEBB12C3795210017D334 /* Todo.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,8 +217,8 @@
 			name = Todo;
 			packageProductDependencies = (
 				8837DDCE2C33E53800D3656A /* RealmSwift */,
-				8837DDD12C33E54500D3656A /* SnapKit */,
 				8837DDD42C33E57200D3656A /* Toast */,
+				883D273F2C3698DB00501D76 /* SnapKit */,
 			);
 			productName = Todo;
 			productReference = 8837DDB02C33E22900D3656A /* Todo.app */;
@@ -233,8 +250,8 @@
 			mainGroup = 8837DDA72C33E22900D3656A;
 			packageReferences = (
 				8837DDCD2C33E53800D3656A /* XCRemoteSwiftPackageReference "realm-swift" */,
-				8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				883D273E2C3698DB00501D76 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 8837DDB12C33E22900D3656A /* Products */;
 			projectDirPath = "";
@@ -267,7 +284,9 @@
 				8842DAB42C342BB200B05944 /* RealmModel.swift in Sources */,
 				8837DDCA2C33E31600D3656A /* AddTodoViewController.swift in Sources */,
 				8837DDDF2C33EE6000D3656A /* ReusableProtocol.swift in Sources */,
+				883D273D2C36988000501D76 /* RealmRepository.swift in Sources */,
 				8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */,
+				88BAEBB22C3795210017D334 /* Todo.swift in Sources */,
 				8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */,
 				8842DAB22C341EF100B05944 /* TodoDateViewController.swift in Sources */,
 				8837DDC82C33E2C700D3656A /* BaseViewController.swift in Sources */,
@@ -275,6 +294,7 @@
 				8837DDD72C33E99300D3656A /* Display.swift in Sources */,
 				88DCE1C32C3575CB0045E472 /* Design.swift in Sources */,
 				88DCE1C12C3571800045E472 /* BaseCollectionViewCell.swift in Sources */,
+				88BAEBB42C37A1150017D334 /* RealmProtocol.swift in Sources */,
 				88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */,
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,
 				88DCE1B82C35520C0045E472 /* TodoPriorityViewController.swift in Sources */,
@@ -512,20 +532,20 @@
 				version = 10.52.1;
 			};
 		};
-		8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
 		8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.1.1;
+			};
+		};
+		883D273E2C3698DB00501D76 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -536,15 +556,15 @@
 			package = 8837DDCD2C33E53800D3656A /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
-		8837DDD12C33E54500D3656A /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8837DDD02C33E54500D3656A /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		8837DDD42C33E57200D3656A /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8837DDD32C33E57200D3656A /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		883D273F2C3698DB00501D76 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 883D273E2C3698DB00501D76 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

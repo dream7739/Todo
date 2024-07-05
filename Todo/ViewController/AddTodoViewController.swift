@@ -17,11 +17,13 @@ final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    var todo = Todo()
-    
     var viewType = Display.ViewType.addTodo
-  
-    private let realm = try! Realm()
+    
+    let repository = RealmRepository()
+    
+    var item: Todo?
+    
+    var model = TodoModel(title: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,33 +34,14 @@ final class AddTodoViewController: BaseViewController {
             name: NSNotification.Name("sendPriority"),
             object: nil
         )
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        DispatchQueue.main.async {
-            if let _ = self.todo.deadLine {
-                self.tableView.reloadRows(
-                    at: [IndexPath(row: 0, section: 1)],
-                    with: .none
-                )
-            }
-            
-            if let _ = self.todo.hashTag {
-                self.tableView.reloadRows(
-                    at: [IndexPath(row: 0, section: 2)],
-                    with: .none
-                )
-            }
-            
-            if let _ = self.todo.priority {
-                self.tableView.reloadRows(
-                    at: [IndexPath(row: 0, section: 3)],
-                    with: .none
-                )
-            }
-        }
+        guard let item else { return }
+        
+        model.title = item.title
+        model.content = item.content
+        model.deadLine = item.deadLine
+        model.hashTag = item.hashTag
+        model.priority = item.priority
     }
     
     override func configureHierarchy() {
@@ -113,26 +96,17 @@ extension AddTodoViewController {
     private func saveButtonClicked(){
         let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
         let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
-        let title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
-        let content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        model.title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
+        model.content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        try! realm.write {
-            todo.title = title
-            todo.content = content
-        }
-        
+        guard let item else { return }
+
         switch viewType {
         case .editTodo:
-            try! realm.write {
-                realm.add(todo, update: .modified)
-            }
+            repository.editTodo(item, model)
             navigationController?.popViewController(animated: true)
         case .addTodo:
-            if viewType == .addTodo {
-                try! realm.write {
-                    realm.add(todo)
-                }
-            }
+            repository.addTodo(item)
             dismiss(animated: true)
         }
         
@@ -152,18 +126,16 @@ extension AddTodoViewController {
     @objc
     private func receivePriority(notification: NSNotification){
         guard let priority = notification.userInfo?["priority"] as? String else { return }
-        try! realm.write{
-            todo.priority = priority
-        }
+        model.priority = priority
+        tableView.reloadData()
     }
     
 }
 
 extension AddTodoViewController: TagTextSendDelegate {
-    func tagTextSend(_ hashTag: String) {
-        try! realm.write{
-            todo.hashTag = hashTag
-        }
+    func tagTextSend(_ tagText: String) {
+        model.hashTag = tagText
+        tableView.reloadData()
     }
 }
 
@@ -194,18 +166,18 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.text = Display.AddOption.allCases[indexPath.section].rawValue
             cell.accessoryType = .disclosureIndicator
             
-            if let deadLine = todo.deadLine, indexPath.section == 1 {
+            if let deadLine = model.deadLine, indexPath.section == 1 {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy.MM.dd"
                 cell.detailTextLabel?.text = dateFormatter.string(from: deadLine)
             }
             
-            if let hashTag = todo.hashTag, indexPath.section == 2 {
+            if let hashTag = model.hashTag, indexPath.section == 2 {
                 cell.detailTextLabel?.text = hashTag
             }
             
-            if let priority = todo.priority, indexPath.section == 3 {
-                cell.detailTextLabel?.text = priority
+            if let pirority = model.priority, indexPath.section == 3 {
+                cell.detailTextLabel?.text = pirority
             }
             
             return cell
@@ -213,8 +185,8 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: TodoTitleTableViewCell.identifier, for: indexPath) as! TodoTitleTableViewCell
                 
-                if !todo.title.isEmpty {
-                    cell.titleTextField.text = todo.title
+                if !model.title.isEmpty {
+                    cell.titleTextField.text = model.title
                 }
                 
                 cell.selectionStyle = .none
@@ -223,7 +195,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: TodoContentTableViewCell.identifier, for: indexPath) as! TodoContentTableViewCell
                 
-                if let content = todo.content, !content.isEmpty {
+                if let content = model.content, !content.isEmpty {
                     cell.contentTextView.text = content
                 }
                 
@@ -239,16 +211,15 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let todoDateVC = TodoDateViewController()
             todoDateVC.dateSender = { date in
-                try! self.realm.write {
-                    self.todo.deadLine = date
-                }
+                self.model.deadLine = date
+                tableView.reloadData()
             }
             navigationController?.pushViewController(todoDateVC, animated: true)
         case 2:
             let todoTagVC = TodoTagViewController()
             todoTagVC.delegate = self
-            if let hashTag = todo.hashTag {
-                todoTagVC.editTagText = hashTag
+            if let hashTag = model.hashTag {
+                todoTagVC.editHashTag = hashTag
             }
             navigationController?.pushViewController(todoTagVC, animated: true)
         case 3:

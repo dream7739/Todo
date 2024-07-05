@@ -11,8 +11,9 @@ import Toast
 
 final class TodoTagViewController: BaseViewController {
     private let tagTextField = UITextField()
+    
     var delegate: TagTextSendDelegate?
-    var editTagText: String?
+    var editHashTag: String?
 
     override func configureHierarchy() {
         view.addSubview(tagTextField)
@@ -34,8 +35,8 @@ final class TodoTagViewController: BaseViewController {
         )
         navigationItem.rightBarButtonItem = save
         
-        if let editTagText {
-            tagTextField.text = editTagText
+        if let editHashTag {
+            tagTextField.text = editHashTag
         }
     }
 }

@@ -12,16 +12,12 @@ import RealmSwift
 final class TodoListViewController: BaseViewController {
     
     private let tableView = UITableView()
-
-    private var list: Results<Todo>!
     
-    private let realm = try! Realm()
+    let repository = RealmRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        list =  realm.objects(Todo.self)
         configureTableView()
-        print(realm.configuration.fileURL)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,14 +37,14 @@ final class TodoListViewController: BaseViewController {
     
     override func configureUI() {
         let title = UIAction(title: "제목순", handler: { _ in
-            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "title", ascending: true)
-            self.tableView.reloadData()
+//            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "title", ascending: true)
+//            self.tableView.reloadData()
         })
         
         
         let deadLine = UIAction(title: "마감일순", handler: { _ in
-            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "deadLine", ascending: true)
-            self.tableView.reloadData()
+//            self.list = self.realm.objects(Todo.self).sorted(byKeyPath: "deadLine", ascending: true)
+//            self.tableView.reloadData()
         })
         
         let menu = UIMenu(title: "", children: [title, deadLine])
@@ -74,13 +70,14 @@ final class TodoListViewController: BaseViewController {
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return repository.fetchList().count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.identifier) as! TodoListTableViewCell
-        let data = list[indexPath.row]
+        
+        let data = repository.fetchList()[indexPath.row]
         let titleText = data.title
         cell.contentLabel.text = data.content
         
@@ -113,10 +110,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
-            try! self.realm.write {
-                self.realm.delete(self.list[indexPath.row])
-            }
-            
+            self.repository.deleteTodo(self.repository.fetchList()[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .none)
             completion(true)
             
@@ -127,8 +121,12 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let addTodoVC = AddTodoViewController()
+        
+        let item = repository.fetchList()[indexPath.row]
         addTodoVC.viewType = .editTodo
-        addTodoVC.todo = list[indexPath.row]
+        addTodoVC.item = item
+ 
+        
         navigationController?.pushViewController(addTodoVC, animated: true)
         
     }
