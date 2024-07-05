@@ -12,7 +12,7 @@ class RealmRepository: RealmProtocol {
     private let realm = try! Realm()
     
     func fetchList() -> Results<Todo> {
-        return realm.objects(Todo.self)
+        return realm.objects(Todo.self).sorted(byKeyPath: "isFavorite", ascending: false)
     }
     
     func addTodo(_ item: Todo){
@@ -39,16 +39,6 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-    func deleteTodo(_ item: Todo){
-        do{
-            try realm.write {
-                realm.delete(item)
-            }
-        }catch{
-            print("delete Realm Item Failed")
-        }
-    }
-    
     func editIsComplete(_ before: Todo, isComplete: Bool){
         do {
             try realm.write {
@@ -59,6 +49,40 @@ class RealmRepository: RealmProtocol {
 
         }
     }
+    
+    func editIsFavorite(_ before: Todo, isFavorite: Bool){
+        do {
+            try realm.write {
+                before.isFavorite = isFavorite
+            }
+        }catch{
+            print("Edit Realm isFavorite Failed")
+
+        }
+    }
+    
+    func editIsFlaged(_ before: Todo, isFlaged: Bool){
+        do {
+            try realm.write {
+                before.isFlaged = isFlaged
+            }
+        }catch{
+            print("Edit Realm isFlaged Failed")
+
+        }
+    }
+    
+    func deleteTodo(_ item: Todo){
+        do{
+            try realm.write {
+                realm.delete(item)
+            }
+        }catch{
+            print("delete Realm Item Failed")
+        }
+    }
+    
+
     
     func fetchCount(with option: Display.MainOption) -> Int{
         switch option {

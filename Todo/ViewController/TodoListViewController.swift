@@ -99,7 +99,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         }else{
             cell.deadlineLabel.isHidden = true
         }
-       
+        
         if let tag = data.hashTag {
             cell.tagLabel.text = "#" + tag
         }
@@ -118,11 +118,33 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.titleLabel.text = titleText
         }
         
+        cell.pinImage.isHidden = data.isFavorite ? false : true
+        cell.flagImage.isHidden = data.isFlaged ? false : true
+
         return cell
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let pin = UIContextualAction(style: .normal, title: "") { view, _, completion in
+            let item = self.repository.fetchList()[indexPath.row]
+            var isFavorite = item.isFavorite
+            isFavorite.toggle()
+            
+            self.repository.editIsFavorite(item, isFavorite: isFavorite)
+            tableView.reloadData()
+            completion(true)
+        }
+
+        pin.image = UIImage(systemName: "pin.fill")
+        return UISwipeActionsConfiguration(actions: [pin])
+    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let flag = UIContextualAction(style: .normal, title: "깃발") { _, _, completion in
+        }
+        
+        flag.backgroundColor = .orange
+        
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
             let item = self.repository.fetchList()[indexPath.row]
             self.removeImageFromDocument(filename: "\(item.id)")
@@ -132,7 +154,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        return UISwipeActionsConfiguration(actions: [delete])
+        return UISwipeActionsConfiguration(actions: [delete, flag])
     }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

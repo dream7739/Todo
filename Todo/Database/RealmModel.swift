@@ -16,8 +16,10 @@ class Todo: Object {
     @Persisted var hashTag: String?
     @Persisted var priority: String?
     @Persisted var isComplete: Bool
+    @Persisted var isFlaged: Bool
+    @Persisted var isFavorite: Bool
     
-    convenience init(title: String, content: String?, deadLine: Date?, hashTag: String?, priority: String?, isComplete: Bool) {
+    convenience init(title: String, content: String?, deadLine: Date?, hashTag: String?, priority: String?) {
         self.init()
         self.title = title
         self.content = content
@@ -25,5 +27,7 @@ class Todo: Object {
         self.hashTag = hashTag
         self.priority = priority
         self.isComplete = false
+        self.isFlaged = false
+        self.isFavorite = false
     }
 }
