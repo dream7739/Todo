@@ -110,7 +110,9 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
-            self.repository.deleteTodo(self.repository.fetchList()[indexPath.row])
+            let item = self.repository.fetchList()[indexPath.row]
+            self.removeImageFromDocument(filename: "\(item.id)")
+            self.repository.deleteTodo(item)
             tableView.deleteRows(at: [indexPath], with: .none)
             completion(true)
             

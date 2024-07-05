@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import PhotosUI
 import SnapKit
-import RealmSwift
+
 
 protocol TagTextSendDelegate: AnyObject {
     func tagTextSend(_ text: String)
@@ -17,12 +18,10 @@ final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    var viewType = Display.ViewType.addTodo
-    
     let repository = RealmRepository()
-    
+    var viewType = Display.ViewType.addTodo
+    var image: UIImage?
     var item: Todo?
-    
     var model = TodoModel(title: "")
     
     override func viewDidLoad() {
@@ -36,6 +35,10 @@ final class AddTodoViewController: BaseViewController {
         )
         
         guard let item else { return }
+        
+        if let image = loadImageToDocument(filename: "\(item.id)"){
+            self.image = image
+        }
         
         model.title = item.title
         model.content = item.content
@@ -94,13 +97,17 @@ extension AddTodoViewController {
     
     @objc
     private func saveButtonClicked(){
+        guard let item else { return }
+        
+        if let image {
+            saveImageToDocument(image: image, filename: "\(item.id)")
+        }
+        
         let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
         let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
         model.title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
         model.content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard let item else { return }
-
         switch viewType {
         case .editTodo:
             repository.editTodo(item, model)
@@ -179,6 +186,11 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.detailTextLabel?.text = pirority
             }
             
+            if let image, indexPath.section == 4{
+                cell.accessoryView = UIImageView(image: image)
+                cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+            }
+            
             return cell
         }else{
             if indexPath.row == 0 {
@@ -224,9 +236,31 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
         case 3:
             let todoPriorityVC = TodoPriorityViewController()
             navigationController?.pushViewController(todoPriorityVC, animated: true)
+        case 4:
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .any(of: [.images, .screenshots])
+            configuration.selectionLimit = 1
+            let photoPicker = PHPickerViewController(configuration: configuration)
+            photoPicker.delegate = self
+            present(photoPicker, animated: true)
         default:
             return
         }
     }
 }
 
+extension AddTodoViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        if let itemProvider = results.first?.itemProvider,
+           itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    self.image = image as? UIImage
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+}
