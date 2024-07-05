@@ -15,9 +15,42 @@ class RealmRepository: RealmProtocol {
         return realm.objects(Todo.self).sorted(byKeyPath: "isFavorite", ascending: false)
     }
     
-    func addTodo(_ item: Todo){
+    func fetchList(option: Display.MainOption) -> Results<Todo>{
+        let list = realm.objects(Todo.self)
+        switch option {
+        case .today:
+            let calendar = Calendar.current
+            let start = calendar.startOfDay(for: Date())
+            let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+            let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
+            return list.filter(predicate)
+        case .tobe:
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
+            let predicate = NSPredicate(format: "deadLine >= %@", start as NSDate)
+            return list.filter(predicate)
+        case .total:
+            return list
+        case .flag:
+            return list.where{
+                $0.isFlaged
+            }
+        case .complete:
+            return list.where{
+                $0.isComplete
+            }
+        }
+    }
+    
+    func addTodo(_ item: Todo, _ model: TodoModel){
         do{
             try realm.write {
+                item.title = model.title
+                item.content = model.content
+                item.deadLine = model.deadLine
+                item.hashTag = model.hashTag
+                item.priority = model.priority
                 realm.add(item)
             }
         }catch{
@@ -25,24 +58,24 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-    func editTodo(_ before: Todo, _ after: TodoModel){
+    func editTodo(_ item: Todo, _ model: TodoModel){
         do{
             try realm.write {
-                before.title = after.title
-                before.content = after.content
-                before.hashTag = after.hashTag
-                before.priority = after.priority
-                before.deadLine = after.deadLine
+                item.title = model.title
+                item.content = model.content
+                item.hashTag = model.hashTag
+                item.priority = model.priority
+                item.deadLine = model.deadLine
             }
         }catch{
             print("Edit Realm Item Failed")
         }
     }
     
-    func editIsComplete(_ before: Todo, isComplete: Bool){
+    func editIsComplete(_ item: Todo, isComplete: Bool){
         do {
             try realm.write {
-                before.isComplete = isComplete
+                item.isComplete = isComplete
             }
         }catch{
             print("Edit Realm isComplete Failed")
@@ -50,10 +83,10 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-    func editIsFavorite(_ before: Todo, isFavorite: Bool){
+    func editIsFavorite(_ item: Todo, isFavorite: Bool){
         do {
             try realm.write {
-                before.isFavorite = isFavorite
+                item.isFavorite = isFavorite
             }
         }catch{
             print("Edit Realm isFavorite Failed")
@@ -61,10 +94,10 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-    func editIsFlaged(_ before: Todo, isFlaged: Bool){
+    func editIsFlaged(_ item: Todo, isFlaged: Bool){
         do {
             try realm.write {
-                before.isFlaged = isFlaged
+                item.isFlaged = isFlaged
             }
         }catch{
             print("Edit Realm isFlaged Failed")
@@ -82,29 +115,17 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-
+    func fetchCountAll() -> [Int] {
+        var result = Array(repeating: 0, count: 5)
+        for idx in 0..<Display.MainOption.allCases.count {
+            let option = Display.MainOption.allCases[idx]
+            result[idx] = fetchCount(with: option)
+        }
+        return result
+    }
     
     func fetchCount(with option: Display.MainOption) -> Int{
-        switch option {
-        case .today:
-            let calendar = Calendar.current
-            let start = calendar.startOfDay(for: Date())
-            let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
-            let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
-            return realm.objects(Todo.self).filter(predicate).count
-        case .tobe:
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: Date())
-            let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
-            let predicate = NSPredicate(format: "deadLine >= %@", start as NSDate)
-            return realm.objects(Todo.self).filter(predicate).count
-        case .total:
-            return realm.objects(Todo.self).count
-        case .flag:
-            return 0
-        case .complete:
-            return 0
-        }
+        return fetchList(option: option).count
     }
 }
 

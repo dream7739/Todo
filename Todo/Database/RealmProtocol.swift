@@ -10,7 +10,7 @@ import RealmSwift
 
 protocol RealmProtocol {
     func fetchList() -> Results<Todo>
-    func addTodo(_ item: Todo)
-    func editTodo(_ before: Todo, _ after: TodoModel)
+    func addTodo(_ item: Todo, _ model: TodoModel)
+    func editTodo(_ item: Todo, _ model: TodoModel)
     func deleteTodo(_ item: Todo)
 }

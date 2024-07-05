@@ -21,7 +21,7 @@ final class AddTodoViewController: BaseViewController {
     let repository = RealmRepository()
     var viewType = Display.ViewType.addTodo
     var image: UIImage?
-    var item: Todo?
+    var item: Todo!
     var model = TodoModel(title: "")
     
     override func viewDidLoad() {
@@ -34,17 +34,18 @@ final class AddTodoViewController: BaseViewController {
             object: nil
         )
         
-        guard let item else { return }
-        
-        if let image = loadImageToDocument(filename: "\(item.id)"){
-            self.image = image
+        if let item {
+            model.title = item.title
+            model.content = item.content
+            model.deadLine = item.deadLine
+            model.hashTag = item.hashTag
+            model.priority = item.priority
+            if let image = loadImageToDocument(filename: "\(item.id)"){
+                self.image = image
+            }
+        }else{
+            item = Todo()
         }
-        
-        model.title = item.title
-        model.content = item.content
-        model.deadLine = item.deadLine
-        model.hashTag = item.hashTag
-        model.priority = item.priority
     }
     
     override func configureHierarchy() {
@@ -97,23 +98,21 @@ extension AddTodoViewController {
     
     @objc
     private func saveButtonClicked(){
-        guard let item else { return }
-        
-        if let image {
-            saveImageToDocument(image: image, filename: "\(item.id)")
-        }
-        
         let titleItem = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TodoTitleTableViewCell
         let contentItem = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TodoContentTableViewCell
         model.title = titleItem.titleTextField.text!.trimmingCharacters(in: .whitespaces)
         model.content = contentItem.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let image {
+            saveImageToDocument(image: image, filename: "\(item.id)")
+        }
         
         switch viewType {
         case .editTodo:
             repository.editTodo(item, model)
             navigationController?.popViewController(animated: true)
         case .addTodo:
-            repository.addTodo(item)
+            repository.addTodo(item, model)
             dismiss(animated: true)
         }
         

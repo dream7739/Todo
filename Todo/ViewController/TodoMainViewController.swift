@@ -14,12 +14,8 @@ final class TodoMainViewController: BaseViewController {
     private let addTodoButton = UIButton()
     private let addListButton = UIButton()
     
-    private var list: Results<Todo>!
-    
-    private let realm = try! Realm()
-    private var countList = Array(repeating: 0, count: 5)
-    let repository = RealmRepository()
-
+    private var countList: [Int] = []
+    private let repository = RealmRepository()
 
     private func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -35,16 +31,9 @@ final class TodoMainViewController: BaseViewController {
         return layout
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        countList[0] = repository.fetchCount(with: .today)
-        countList[1] = repository.fetchCount(with: .tobe)
-        countList[2] = repository.fetchCount(with: .total)
-        collectionView.reloadData()
+        countList = repository.fetchCountAll()
     }
     
     override func configureHierarchy() {
