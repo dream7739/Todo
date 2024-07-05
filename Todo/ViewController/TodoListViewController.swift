@@ -64,8 +64,17 @@ final class TodoListViewController: BaseViewController {
             forCellReuseIdentifier: TodoListTableViewCell.identifier
         )
     }
-    
+}
 
+extension TodoListViewController: CompletDelegate {
+    func completeButtonClicked(indexPath: IndexPath) {
+        print(#function)
+        let item = repository.fetchList()[indexPath.row]
+        var isComplete = item.isComplete
+        isComplete.toggle()
+        repository.editIsComplete(repository.fetchList()[indexPath.row], isComplete: isComplete)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
 }
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,7 +87,9 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.identifier) as! TodoListTableViewCell
         
         let data = repository.fetchList()[indexPath.row]
-        let titleText = data.title
+        cell.delegate = self
+        cell.indexPath = indexPath
+        cell.isCompleteClicked = data.isComplete
         cell.contentLabel.text = data.content
         
         if let deadLine = data.deadLine {
@@ -93,9 +104,11 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.tagLabel.text = "#" + tag
         }
         
+        let titleText = data.title
+        
         if let priority = data.priority {
             if priority == "높음" {
-                cell.titleLabel.text = "⭐️⭐️⭐️ " + titleText
+                cell.titleLabel.text = "⭐️⭐️⭐️ " + data.title
             }else if priority == "보통"{
                 cell.titleLabel.text = "⭐️⭐️ " + titleText
             }else{
@@ -107,6 +120,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
@@ -128,7 +142,6 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         addTodoVC.viewType = .editTodo
         addTodoVC.item = item
  
-        
         navigationController?.pushViewController(addTodoVC, animated: true)
         
     }

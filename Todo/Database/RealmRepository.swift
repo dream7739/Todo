@@ -49,11 +49,17 @@ class RealmRepository: RealmProtocol {
         }
     }
     
-    //1. 오늘
-    //2. 예정
-    //3. 전체
-    //4. 깃발표시(컬럼추가 필요)
-    //5. 완료됨(컬럼추가 필요)
+    func editIsComplete(_ before: Todo, isComplete: Bool){
+        do {
+            try realm.write {
+                before.isComplete = isComplete
+            }
+        }catch{
+            print("Edit Realm isComplete Failed")
+
+        }
+    }
+    
     func fetchCount(with option: Display.MainOption) -> Int{
         switch option {
         case .today:
