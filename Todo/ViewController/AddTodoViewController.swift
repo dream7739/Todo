@@ -114,7 +114,6 @@ extension AddTodoViewController {
     
     @objc
     private func titleTextFieldChanged(sender: UITextField){
-        
         guard let title = sender.text?.trimmingCharacters(in: .whitespaces), title.isEmpty else{
             navigationItem.rightBarButtonItem?.isEnabled = true
             return

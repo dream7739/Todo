@@ -157,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				8837DDDE2C33EE6000D3656A /* ReusableProtocol.swift */,
-				88BAEBB32C37A1150017D334 /* RealmProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -186,6 +185,7 @@
 			children = (
 				8842DAB32C342BB200B05944 /* RealmModel.swift */,
 				883D273C2C36988000501D76 /* RealmRepository.swift */,
+				88BAEBB32C37A1150017D334 /* RealmProtocol.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";

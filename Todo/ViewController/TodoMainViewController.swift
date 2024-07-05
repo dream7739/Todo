@@ -15,8 +15,11 @@ final class TodoMainViewController: BaseViewController {
     private let addListButton = UIButton()
     
     private var list: Results<Todo>!
+    
     private let realm = try! Realm()
     private var countList = Array(repeating: 0, count: 5)
+    let repository = RealmRepository()
+
 
     private func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -34,16 +37,14 @@ final class TodoMainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        list =  realm.objects(Todo.self)
+    }
     
-        getTodayCount()
-        getTobeCount()
-        getTotalCount()
-//        getFlagCount()
-//        getCompleteCount()
-        
-       
-        print(countList)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        countList[0] = repository.fetchCount(with: .today)
+        countList[1] = repository.fetchCount(with: .tobe)
+        countList[2] = repository.fetchCount(with: .total)
+        collectionView.reloadData()
     }
     
     override func configureHierarchy() {
@@ -94,32 +95,6 @@ final class TodoMainViewController: BaseViewController {
 }
 
 extension TodoMainViewController {
-    func getTodayCount(){
-        let calendar = Calendar.current
-
-        let start = calendar.startOfDay(for: Date())
-        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
-        
-        let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
-
-        countList[0] = list.filter(predicate).count
-    }
-    
-    func getTobeCount(){
-        let calendar = Calendar.current
-
-        let today = calendar.startOfDay(for: Date())
-        let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
-        let end = calendar.date(byAdding: .day, value: 2, to: today) ?? Date()
-        
-        let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
-
-        countList[1] = list.filter(predicate).count
-    }
-    
-    func getTotalCount(){
-        countList[2] = list.count
-    }
     
     @objc
     private func addTodoButtonClicked(){

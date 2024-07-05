@@ -49,4 +49,32 @@ class RealmRepository: RealmProtocol {
         }
     }
     
+    //1. 오늘
+    //2. 예정
+    //3. 전체
+    //4. 깃발표시(컬럼추가 필요)
+    //5. 완료됨(컬럼추가 필요)
+    func fetchCount(with option: Display.MainOption) -> Int{
+        switch option {
+        case .today:
+            let calendar = Calendar.current
+            let start = calendar.startOfDay(for: Date())
+            let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+            let predicate = NSPredicate(format: "deadLine >= %@ && deadLine <= %@", start as NSDate, end as NSDate)
+            return realm.objects(Todo.self).filter(predicate).count
+        case .tobe:
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
+            let predicate = NSPredicate(format: "deadLine >= %@", start as NSDate)
+            return realm.objects(Todo.self).filter(predicate).count
+        case .total:
+            return realm.objects(Todo.self).count
+        case .flag:
+            return 0
+        case .complete:
+            return 0
+        }
+    }
 }
+
