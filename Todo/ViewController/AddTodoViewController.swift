@@ -85,6 +85,14 @@ final class AddTodoViewController: BaseViewController {
 }
 
 extension AddTodoViewController {
+    enum AddOption: String, CaseIterable {
+        case input = ""
+        case deadline = "마감일"
+        case tag = "태그"
+        case priority = "우선 순위"
+        case image = "이미지 추가"
+    }
+    
     @objc
     private func cancelButtonClicked(){
         switch viewType {
@@ -153,7 +161,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Display.AddOption.allCases.count
+        return AddOption.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -167,7 +175,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (1...4).contains(indexPath.section){
             let cell = UITableViewCell(style: .value1, reuseIdentifier: "todoCell")
-            cell.textLabel?.text = Display.AddOption.allCases[indexPath.section].rawValue
+            cell.textLabel?.text = AddOption.allCases[indexPath.section].rawValue
             cell.accessoryType = .disclosureIndicator
             
             if let deadLine = model.deadLine, indexPath.section == 1 {

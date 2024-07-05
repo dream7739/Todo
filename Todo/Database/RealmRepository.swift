@@ -30,7 +30,7 @@ class RealmRepository: RealmProtocol {
         return realm.objects(Todo.self)
     }
     
-    func fetchList(_ option: Display.MainOption) -> Results<Todo>{
+    func fetchList(_ option: MainOption) -> Results<Todo>{
         let list = realm.objects(Todo.self)
         
         switch option {
@@ -58,7 +58,20 @@ class RealmRepository: RealmProtocol {
             return list.where{ $0.isComplete }.sorted(byKeyPath: "isFavorite", ascending: false)
         }
     }
-
+    
+    func fetchList(_ option: MainOption, _ sortOption: SortOption) -> Results<Todo>{
+        let list = fetchList(option)
+        
+        switch sortOption {
+        case .total:
+            return list
+        case .title, .deadLine:
+            return list.sorted(by: sortOption.descriptor)
+        case .priority(let priority):
+            return list.where { $0.priority == priority.rawValue}.sorted(by: sortOption.descriptor)
+        }
+    }
+    
     func fetchList(_ date: Date) -> Results<Todo>{
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: date)
@@ -71,14 +84,14 @@ class RealmRepository: RealmProtocol {
         return realm.objects(Todo.self).filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
     }
     
-    func fetchCount(_ option: Display.MainOption) -> Int{
+    func fetchCount(_ option: MainOption) -> Int{
         return fetchList(option).count
     }
     
     func fetchCountAll() -> [Int] {
         var result = Array(repeating: 0, count: 5)
-        for idx in 0..<Display.MainOption.allCases.count {
-            let option = Display.MainOption.allCases[idx]
+        for idx in 0..<MainOption.allCases.count {
+            let option = MainOption.allCases[idx]
             result[idx] = fetchCount(option)
         }
         return result
@@ -105,7 +118,7 @@ class RealmRepository: RealmProtocol {
             }
         }catch{
             print("Edit Realm isComplete Failed")
-
+            
         }
     }
     
@@ -116,7 +129,7 @@ class RealmRepository: RealmProtocol {
             }
         }catch{
             print("Edit Realm isFavorite Failed")
-
+            
         }
     }
     
@@ -127,7 +140,7 @@ class RealmRepository: RealmProtocol {
             }
         }catch{
             print("Edit Realm isFlaged Failed")
-
+            
         }
     }
     
@@ -143,3 +156,38 @@ class RealmRepository: RealmProtocol {
     
 }
 
+extension RealmRepository{
+    typealias SortDescriptor = RealmSwift.SortDescriptor
+    enum SortOption {
+        case total
+        case title
+        case deadLine
+        case priority(_ priority: Priority)
+        
+        enum Priority: String {
+            case high = "높음"
+            case medium = "보통"
+            case row = "낮음"
+        }
+        
+        var descriptor: [SortDescriptor] {
+            switch self {
+            case .total, .priority:
+                return [
+                    SortDescriptor(keyPath: "isFavorite", ascending: false)
+                ]
+            case .title:
+                return [
+                    SortDescriptor(keyPath: "isFavorite", ascending: false),
+                    SortDescriptor(keyPath: "title", ascending: true)
+                ]
+            case .deadLine:
+                return [
+                    SortDescriptor(keyPath: "isFavorite", ascending: false),
+                    SortDescriptor(keyPath: "deadLine", ascending: false)
+                ]
+            }
+        }
+        
+    }
+}

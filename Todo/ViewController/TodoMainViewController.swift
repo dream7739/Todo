@@ -87,11 +87,48 @@ final class TodoMainViewController: BaseViewController {
 }
 
 extension TodoMainViewController {
-    @objc 
+    enum MainOption: String, CaseIterable {
+        case today = "오늘"
+        case tobe = "예정"
+        case total = "전체"
+        case flag = "깃발 표시"
+        case complete = "완료됨"
+        
+        var iconImage: UIImage {
+            switch self {
+            case .today:
+                return Design.Image.today
+            case .tobe:
+                return Design.Image.tobe
+            case .total:
+                return Design.Image.total
+            case .flag:
+                return Design.Image.flag
+            case .complete:
+                return Design.Image.complete
+            }
+        }
+        
+        var iconColor: UIColor {
+            switch self {
+            case .today:
+                return .systemBlue
+            case .tobe:
+                return .systemRed
+            case .total:
+                return .gray
+            case .flag:
+                return .systemOrange
+            case .complete:
+                return .gray
+            }
+        }
+    }
+    
+    @objc
     private func calendarButtonClicked(){
-        let calendarVC = UINavigationController(rootViewController: TodoCalendarViewController())
-        calendarVC.modalPresentationStyle = .fullScreen
-        present(calendarVC, animated: true)
+        let calendarVC = TodoCalendarViewController()
+        navigationController?.pushViewController(calendarVC, animated: true)
     }
     
     @objc
@@ -111,7 +148,7 @@ extension TodoMainViewController {
 extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoMainCollectionViewCell.identifier, for: indexPath) as? TodoMainCollectionViewCell else { return UICollectionViewCell() }
-        let data = Display.MainOption.allCases[indexPath.item]
+        let data = MainOption.allCases[indexPath.item]
         cell.titleLabel.text = data.rawValue
         cell.iconImage.image = data.iconImage
         cell.iconImage.backgroundColor = data.iconColor
@@ -120,12 +157,12 @@ extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Display.MainOption.allCases.count
+        return MainOption.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let todoListVC = TodoListViewController()
-        todoListVC.option = Display.MainOption.allCases[indexPath.item]
+        todoListVC.option = MainOption.allCases[indexPath.item]
         navigationController?.pushViewController(todoListVC, animated: true)
     }
 }

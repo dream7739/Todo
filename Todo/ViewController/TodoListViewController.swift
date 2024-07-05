@@ -14,13 +14,14 @@ final class TodoListViewController: BaseViewController {
     private let tableView = UITableView()
     
     let repository = RealmRepository()
-    var option: Display.MainOption!
+    var option: TodoMainViewController.MainOption!
     var list: Results<Todo>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
         list = repository.fetchList(option)
+        configureTableView()
+        configureMenu()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,62 +42,6 @@ final class TodoListViewController: BaseViewController {
     override func configureUI() {
         navigationItem.title = option.rawValue
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        let total = UIAction(title: "전체", handler: { _ in
-            self.list = self.repository.fetchList(self.option)
-            self.tableView.reloadData()
-        })
-        
-        let title = UIAction(title: "제목순", handler: { _ in
-            let sortProperties = [
-                SortDescriptor(keyPath: "isFavorite", ascending: false),
-                SortDescriptor(keyPath: "title", ascending: true)
-            ]
-            self.list = self.repository.fetchList(self.option).sorted(by: sortProperties)
-            self.tableView.reloadData()
-        })
-        
-        let deadLine = UIAction(title: "마감일순", handler: { _ in
-            let sortProperties = [
-                SortDescriptor(keyPath: "isFavorite", ascending: false),
-                SortDescriptor(keyPath: "deadLine", ascending: false)
-            ]
-            self.list = self.repository.fetchList(self.option).sorted(by: sortProperties)
-            self.tableView.reloadData()
-        })
-        
-        let high = UIAction(title: "높음", handler: { _ in
-            let sortProperties = [
-                SortDescriptor(keyPath: "isFavorite", ascending: false)
-            ]
-            self.list = self.repository.fetchList(self.option).where { $0.priority == "높음"}.sorted(by: sortProperties)
-            self.tableView.reloadData()
-        })
-        
-        
-        let middle = UIAction(title: "보통", handler: { _ in
-            let sortProperties = [
-                SortDescriptor(keyPath: "isFavorite", ascending: false)
-            ]
-            self.list = self.repository.fetchList(self.option).where{ $0.priority == "보통"}.sorted(by: sortProperties)
-            self.tableView.reloadData()
-        })
-        
-        
-        let row = UIAction(title: "낮음", handler: { _ in
-            let sortProperties = [
-                SortDescriptor(keyPath: "isFavorite", ascending: false)
-            ]
-            self.list = self.list.where { $0.priority == "낮음"}.sorted(by: sortProperties)
-            self.tableView.reloadData()
-        })
-
-        let priority = UIMenu(title: "우선순위", children: [high, middle, row])
-        
-        let menu = UIMenu(title: "", options: .displayInline, children: [total, title, deadLine, priority])
-        let sort = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
-        navigationItem.rightBarButtonItem = sort
-
     }
 
     private func configureTableView(){
@@ -108,9 +53,70 @@ final class TodoListViewController: BaseViewController {
             forCellReuseIdentifier: TodoListTableViewCell.identifier
         )
     }
+    
+    private func configureMenu(){
+        let total = UIAction(title: SortOption.total.rawValue) { _ in
+            self.list = self.repository.fetchList(self.option, .total)
+            self.tableView.reloadData()
+        }
+        
+        let title = UIAction(title: SortOption.title.rawValue){ _ in
+            self.list = self.repository.fetchList(self.option, .title)
+            self.tableView.reloadData()
+        }
+        
+        let deadLine = UIAction(title: SortOption.deadLine.rawValue){ _ in
+            self.list = self.repository.fetchList(self.option, .deadLine)
+            self.tableView.reloadData()
+        }
+        
+        let high = UIAction(title: SortOption.high.rawValue){ _ in
+            self.list = self.repository.fetchList(self.option, .priority(.high))
+            self.tableView.reloadData()
+        }
+        
+        let middle = UIAction(title: SortOption.medium.rawValue){ _ in
+            self.list = self.repository.fetchList(self.option, .priority(.medium))
+            self.tableView.reloadData()
+        }
+        
+        let row = UIAction(title: SortOption.row.rawValue){ _ in
+            self.list = self.repository.fetchList(self.option, .priority(.row))
+            self.tableView.reloadData()
+        }
+
+        let priority = UIMenu(
+            title: SortOption.priority.rawValue,
+            children: [high, middle, row]
+        )
+        
+        let menu = UIMenu(
+            title: "",
+            options: .displayInline,
+            children: [total, title, deadLine, priority]
+        )
+        
+        let sort = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            menu: menu
+        )
+        
+        navigationItem.rightBarButtonItem = sort
+
+    }
 }
 
 extension TodoListViewController: CompletDelegate {
+    enum SortOption: String {
+        case total = "전체"
+        case title = "제목순"
+        case deadLine = "마감일순"
+        case priority = "우선순위순"
+        case high = "높음"
+        case medium = "보통"
+        case row = "낮음"
+    }
+
     func completeButtonClicked(indexPath: IndexPath) {
         let item = list[indexPath.row]
         var isComplete = item.isComplete

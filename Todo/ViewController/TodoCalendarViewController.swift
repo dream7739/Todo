@@ -17,6 +17,11 @@ class TodoCalendarViewController: BaseViewController {
     var list: Results<Todo>!
     let repository = RealmRepository()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "캘린더"
+    }
+    
     override func configureHierarchy() {
         view.addSubview(calendar)
         view.addSubview(tableView)
