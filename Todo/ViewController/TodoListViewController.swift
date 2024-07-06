@@ -11,6 +11,7 @@ import RealmSwift
 
 final class TodoListViewController: BaseViewController {
     
+    private let searchBar = UISearchBar()
     private let tableView = UITableView()
     
     let repository = RealmRepository()
@@ -30,20 +31,41 @@ final class TodoListViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
+        view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
     override func configureLayout() {
+        searchBar.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(searchBar.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     override func configureUI() {
         navigationItem.title = option.rawValue
         navigationController?.navigationBar.prefersLargeTitles = true
+        searchBar.delegate = self
     }
 
+   
+}
+
+extension TodoListViewController {
+    enum SortOption: String {
+        case total = "전체"
+        case title = "제목순"
+        case deadLine = "마감일순"
+        case priority = "우선순위순"
+        case high = "높음"
+        case medium = "보통"
+        case row = "낮음"
+    }
+    
     private func configureTableView(){
         tableView.rowHeight = 85
         tableView.delegate = self
@@ -106,17 +128,21 @@ final class TodoListViewController: BaseViewController {
     }
 }
 
-extension TodoListViewController: CompletDelegate {
-    enum SortOption: String {
-        case total = "전체"
-        case title = "제목순"
-        case deadLine = "마감일순"
-        case priority = "우선순위순"
-        case high = "높음"
-        case medium = "보통"
-        case row = "낮음"
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //print(searchText)
+        let text = searchText.trimmingCharacters(in: .whitespaces)
+        
+        if text.isEmpty {
+            list = repository.fetchList()
+        }else{
+            list = repository.fetchList(text)
+        }
+        
+        tableView.reloadData()
     }
-
+}
+extension TodoListViewController: CompletDelegate {
     func completeButtonClicked(indexPath: IndexPath) {
         let item = list[indexPath.row]
         var isComplete = item.isComplete

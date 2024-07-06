@@ -17,6 +17,7 @@ protocol RealmProtocol {
     func fetchList(_ option: MainOption) -> Results<Todo>
     func fetchList(_ option: MainOption, _ sortOption: SortOption) -> Results<Todo>
     func fetchList(_ date: Date) -> Results<Todo>
+    func fetchList(_ keyword: String) -> Results<Todo>
     func fetchCount(_ option: MainOption) -> Int
     func fetchCountAll() -> [Int]
     func editTodo(_ item: Todo, _ model: TodoModel)

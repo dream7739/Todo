@@ -27,7 +27,7 @@ class RealmRepository: RealmProtocol {
     }
     
     func fetchList() -> Results<Todo>{
-        return realm.objects(Todo.self)
+        return realm.objects(Todo.self).sorted(byKeyPath: "isFavorite", ascending: false)
     }
     
     func fetchList(_ option: MainOption) -> Results<Todo>{
@@ -82,6 +82,12 @@ class RealmRepository: RealmProtocol {
             end as NSDate
         )
         return realm.objects(Todo.self).filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
+    }
+    
+    func fetchList(_ keyword: String) -> Results<Todo>{
+        return realm.objects(Todo.self).where {
+            $0.title.contains(keyword, options: .caseInsensitive)
+        }.sorted(byKeyPath: "isFavorite", ascending: false)
     }
     
     func fetchCount(_ option: MainOption) -> Int{
@@ -158,6 +164,7 @@ class RealmRepository: RealmProtocol {
 
 extension RealmRepository{
     typealias SortDescriptor = RealmSwift.SortDescriptor
+    
     enum SortOption {
         case total
         case title
