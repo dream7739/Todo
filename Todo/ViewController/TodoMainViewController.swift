@@ -32,8 +32,20 @@ final class TodoMainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveTodoComplete),
+            name:Notification.Name.saveTodo,
+            object: nil
+        )
+        
         countList = repository.fetchCountAll()
         collectionView.reloadData()
+    }
+    
+    @objc func saveTodoComplete(){
+        view.makeToast("할 일이 저장되었습니다")
     }
     
     override func configureHierarchy() {
@@ -87,43 +99,7 @@ final class TodoMainViewController: BaseViewController {
 }
 
 extension TodoMainViewController {
-    enum MainOption: String, CaseIterable {
-        case today = "오늘"
-        case tobe = "예정"
-        case total = "전체"
-        case flag = "깃발 표시"
-        case complete = "완료됨"
-        
-        var iconImage: UIImage {
-            switch self {
-            case .today:
-                return Design.Image.today
-            case .tobe:
-                return Design.Image.tobe
-            case .total:
-                return Design.Image.total
-            case .flag:
-                return Design.Image.flag
-            case .complete:
-                return Design.Image.complete
-            }
-        }
-        
-        var iconColor: UIColor {
-            switch self {
-            case .today:
-                return .systemBlue
-            case .tobe:
-                return .systemRed
-            case .total:
-                return .gray
-            case .flag:
-                return .systemOrange
-            case .complete:
-                return .gray
-            }
-        }
-    }
+
     
     @objc
     private func calendarButtonClicked(){

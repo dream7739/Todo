@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import SnapKit
 import RealmSwift
+import SnapKit
+import Toast
 
 final class TodoListViewController: BaseViewController {
     
@@ -16,18 +17,31 @@ final class TodoListViewController: BaseViewController {
     
     private let repository = RealmRepository()
     private var list: Results<Todo>!
-    var option: TodoMainViewController.MainOption!
+    var option: MainOption!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         list = repository.fetchList(option)
         configureTableView()
         configureMenu()
+        
+        print(try! Realm().configuration.fileURL)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveTodoComplete),
+            name: Notification.Name.saveTodo,
+            object: nil
+        )
+    }
+    
+    @objc func saveTodoComplete(){
+        view.makeToast("할 일이 저장되었습니다")
     }
     
     override func configureHierarchy() {
@@ -56,15 +70,6 @@ final class TodoListViewController: BaseViewController {
 }
 
 extension TodoListViewController {
-    enum SortOption: String {
-        case total = "전체"
-        case title = "제목순"
-        case deadLine = "마감일순"
-        case priority = "우선순위순"
-        case high = "높음"
-        case medium = "보통"
-        case row = "낮음"
-    }
     
     private func configureTableView(){
         tableView.rowHeight = 85
@@ -77,38 +82,54 @@ extension TodoListViewController {
     }
     
     private func configureMenu(){
-        let total = UIAction(title: SortOption.total.rawValue) { _ in
+        let total = UIAction(title: SortMenuOption.total.rawValue) { _ in
             self.list = self.repository.fetchList(self.option, .total)
             self.tableView.reloadData()
+            if !self.list.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
         }
         
-        let title = UIAction(title: SortOption.title.rawValue){ _ in
+        let title = UIAction(title: SortMenuOption.title.rawValue){ _ in
             self.list = self.repository.fetchList(self.option, .title)
             self.tableView.reloadData()
+            if !self.list.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
         }
         
-        let deadLine = UIAction(title: SortOption.deadLine.rawValue){ _ in
+        let deadLine = UIAction(title: SortMenuOption.deadLine.rawValue){ _ in
             self.list = self.repository.fetchList(self.option, .deadLine)
             self.tableView.reloadData()
+            if !self.list.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
         }
         
-        let high = UIAction(title: SortOption.high.rawValue){ _ in
+        let high = UIAction(title: SortMenuOption.high.rawValue){ _ in
             self.list = self.repository.fetchList(self.option, .priority(.high))
             self.tableView.reloadData()
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
         
-        let middle = UIAction(title: SortOption.medium.rawValue){ _ in
+        let middle = UIAction(title: SortMenuOption.medium.rawValue){ _ in
             self.list = self.repository.fetchList(self.option, .priority(.medium))
             self.tableView.reloadData()
+            if !self.list.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
         }
         
-        let row = UIAction(title: SortOption.row.rawValue){ _ in
+        let row = UIAction(title: SortMenuOption.row.rawValue){ _ in
             self.list = self.repository.fetchList(self.option, .priority(.row))
             self.tableView.reloadData()
+            if !self.list.isEmpty {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
         }
 
         let priority = UIMenu(
-            title: SortOption.priority.rawValue,
+            title: SortMenuOption.priority.rawValue,
             children: [high, middle, row]
         )
         
@@ -196,12 +217,13 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         flag.backgroundColor = .orange
         
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
-            let item = self.list[indexPath.row]
-            self.removeImageFromDocument(filename: "\(item.id)")
-            self.repository.deleteTodo(item)
-            tableView.deleteRows(at: [indexPath], with: .none)
+            self.showAlert("알림", "정말 삭제하시겠습니까?", "확인") { _ in
+                let item = self.list[indexPath.row]
+                self.removeImageFromDocument(filename: "\(item.id)")
+                self.repository.deleteTodo(item)
+                tableView.deleteRows(at: [indexPath], with: .none)
+            }
             completion(true)
-            
         }
         
         return UISwipeActionsConfiguration(actions: [delete, flag])

@@ -9,9 +9,16 @@ import UIKit
 import SnapKit
 
 final class TodoPriorityViewController: BaseViewController {
-    private lazy var segment = UISegmentedControl(items: list)
+    private lazy var segment = UISegmentedControl()
     
-    private let list = ["높음", "보통", "낮음"]
+    var priority: String?
+    
+    var prioritySender: ((String?) -> Void)?
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        prioritySender?(priority)
+    }
     
     override func configureHierarchy() {
         view.addSubview(segment)
@@ -24,6 +31,9 @@ final class TodoPriorityViewController: BaseViewController {
     }
     
     override func configureUI() {
+        segment.insertSegment(withTitle: Priority.allCases[0].rawValue, at: 0, animated: true)
+        segment.insertSegment(withTitle: Priority.allCases[1].rawValue, at: 1, animated: true)
+        segment.insertSegment(withTitle: Priority.allCases[2].rawValue, at: 2, animated: true)
         segment.addTarget(self, action: #selector(segmentItemClicked), for: .valueChanged)
     }
 }
@@ -31,6 +41,6 @@ final class TodoPriorityViewController: BaseViewController {
 extension TodoPriorityViewController {
     @objc
     private func segmentItemClicked(sender: UISegmentedControl){
-        NotificationCenter.default.post(name: NSNotification.Name("sendPriority"), object: nil, userInfo: ["priority": list[sender.selectedSegmentIndex]])
+        priority = Priority.allCases[sender.selectedSegmentIndex].rawValue
     }
 }

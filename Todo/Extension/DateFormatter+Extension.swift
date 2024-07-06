@@ -23,4 +23,24 @@ extension Date {
     func formattedString() -> String {
         return DateFormatter.dateFormatter.string(from: self)
     }
+    
+    func startOfDay() -> Self {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: Date())
+        return start
+    }
+    
+    func endOfDay() -> Self {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: Date())
+        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()   
+        return end
+    }
+    
+    func tomorrow() -> Self {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
+        return tomorrow
+    }
 }

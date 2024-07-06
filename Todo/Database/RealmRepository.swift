@@ -27,7 +27,7 @@ class RealmRepository: RealmProtocol {
     }
     
     func fetchList() -> Results<Todo>{
-        return realm.objects(Todo.self).sorted(byKeyPath: "isFavorite", ascending: false)
+        return realm.objects(Todo.self).sorted(by: [Descripter.favoriteDesc])
     }
     
     func fetchList(_ option: MainOption) -> Results<Todo>{
@@ -35,36 +35,35 @@ class RealmRepository: RealmProtocol {
         
         switch option {
         case .today:
-            let calendar = Calendar.current
-            let start = calendar.startOfDay(for: Date())
-            let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+            let date = Date()
+            let start = date.startOfDay()
+            let end = date.endOfDay()
             let predicate = NSPredicate(
-                format: "deadLine >= %@ && deadLine <= %@",
+                format: "deadLine >= %@ && deadLine < %@",
                 start as NSDate,
                 end as NSDate
             )
-            return list.filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
+            return list.filter(predicate).sorted(by: [Descripter.favoriteDesc])
         case .tobe:
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: Date())
-            let start = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
+            let date = Date()
+            let start = date.tomorrow()
             let predicate = NSPredicate(format: "deadLine >= %@", start as NSDate)
-            return list.filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
+            return list.filter(predicate).sorted(by: [Descripter.favoriteDesc])
         case .total:
-            return list.sorted(byKeyPath: "isFavorite", ascending: false)
+            return list.sorted(by: [Descripter.favoriteDesc])
         case .flag:
-            return list.where{ $0.isFlaged }.sorted(byKeyPath: "isFavorite", ascending: false)
+            return list.where{ $0.isFlaged }.sorted(by: [Descripter.favoriteDesc])
         case .complete:
-            return list.where{ $0.isComplete }.sorted(byKeyPath: "isFavorite", ascending: false)
+            return list.where{ $0.isComplete }.sorted(by: [Descripter.favoriteDesc])
         }
     }
     
     func fetchList(_ option: MainOption, _ sortOption: SortOption) -> Results<Todo>{
-        let list = fetchList(option)
-        
+        let list = realm.objects(Todo.self)
+
         switch sortOption {
         case .total:
-            return list
+            return list.sorted(by: sortOption.descriptor)
         case .title, .deadLine:
             return list.sorted(by: sortOption.descriptor)
         case .priority(let priority):
@@ -73,21 +72,21 @@ class RealmRepository: RealmProtocol {
     }
     
     func fetchList(_ date: Date) -> Results<Todo>{
-        let calendar = Calendar.current
-        let start = calendar.startOfDay(for: date)
-        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()
+        let date = Date()
+        let start = date.startOfDay()
+        let end = date.endOfDay()
         let predicate = NSPredicate(
-            format: "deadLine >= %@ && deadLine <= %@",
+            format: "deadLine >= %@ && deadLine < %@",
             start as NSDate,
             end as NSDate
         )
-        return realm.objects(Todo.self).filter(predicate).sorted(byKeyPath: "isFavorite", ascending: false)
+        return realm.objects(Todo.self).filter(predicate).sorted(by: [Descripter.favoriteDesc])
     }
     
     func fetchList(_ keyword: String) -> Results<Todo>{
         return realm.objects(Todo.self).where {
             $0.title.contains(keyword, options: .caseInsensitive)
-        }.sorted(byKeyPath: "isFavorite", ascending: false)
+        }.sorted(by: [Descripter.favoriteDesc])
     }
     
     func fetchCount(_ option: MainOption) -> Int{
@@ -165,34 +164,28 @@ class RealmRepository: RealmProtocol {
 extension RealmRepository{
     typealias SortDescriptor = RealmSwift.SortDescriptor
     
+    enum Descripter{
+        static let favoriteDesc = SortDescriptor(keyPath: "isFavorite", ascending: false)
+        static let titleAsc = SortDescriptor(keyPath: "title", ascending: true)
+        static let deadLineAsc = SortDescriptor(keyPath: "deadLine", ascending: true)
+    }
+    
     enum SortOption {
         case total
         case title
         case deadLine
         case priority(_ priority: Priority)
         
-        enum Priority: String {
-            case high = "높음"
-            case medium = "보통"
-            case row = "낮음"
-        }
-        
         var descriptor: [SortDescriptor] {
             switch self {
             case .total, .priority:
-                return [
-                    SortDescriptor(keyPath: "isFavorite", ascending: false)
-                ]
+                return [Descripter.favoriteDesc]
             case .title:
-                return [
-                    SortDescriptor(keyPath: "isFavorite", ascending: false),
-                    SortDescriptor(keyPath: "title", ascending: true)
-                ]
+                return [Descripter.favoriteDesc,
+                        Descripter.titleAsc]
             case .deadLine:
-                return [
-                    SortDescriptor(keyPath: "isFavorite", ascending: false),
-                    SortDescriptor(keyPath: "deadLine", ascending: false)
-                ]
+                return [Descripter.favoriteDesc,
+                        Descripter.deadLineAsc]
             }
         }
         

@@ -9,7 +9,6 @@ import Foundation
 import RealmSwift
 
 protocol RealmProtocol {
-    typealias MainOption = TodoMainViewController.MainOption
     typealias SortOption = RealmRepository.SortOption
 
     func addTodo(_ item: Todo, _ model: TodoModel)

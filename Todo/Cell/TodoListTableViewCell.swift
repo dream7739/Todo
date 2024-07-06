@@ -82,7 +82,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
     }
     
     override func configureUI() {
-        completeButton.setImage(UIImage(systemName: "circle"), for: .normal)
+        completeButton.setImage(Design.Image.circle, for: .normal)
         completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
         
         stackView.axis = .vertical

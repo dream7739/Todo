@@ -9,10 +9,6 @@ import UIKit
 import PhotosUI
 import SnapKit
 
-protocol TagTextSendDelegate: AnyObject {
-    func tagTextSend(_ text: String)
-}
-
 final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -25,13 +21,6 @@ final class AddTodoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(receivePriority),
-            name: NSNotification.Name("sendPriority"),
-            object: nil
-        )
         
         if let item {
             model.title = item.title
@@ -95,6 +84,7 @@ final class AddTodoViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "todoCell")
         tableView.register(TodoTitleTableViewCell.self, forCellReuseIdentifier: TodoTitleTableViewCell.identifier)
         tableView.register(TodoContentTableViewCell.self, forCellReuseIdentifier: TodoContentTableViewCell.identifier)
+        tableView.keyboardDismissMode = .onDrag
     }
     
 }
@@ -132,9 +122,19 @@ extension AddTodoViewController {
         switch viewType {
         case .editTodo:
             repository.editTodo(item, model)
+            NotificationCenter.default.post(
+                name: NSNotification.Name.saveTodo,
+                object: nil,
+                userInfo: nil
+            )
             navigationController?.popViewController(animated: true)
         case .addTodo:
             repository.addTodo(item, model)
+            NotificationCenter.default.post(
+                name: NSNotification.Name.saveTodo,
+                object: nil,
+                userInfo: nil
+            )
             dismiss(animated: true)
         }
         
@@ -150,20 +150,6 @@ extension AddTodoViewController {
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
-    @objc
-    private func receivePriority(notification: NSNotification){
-        guard let priority = notification.userInfo?["priority"] as? String else { return }
-        model.priority = priority
-        tableView.reloadData()
-    }
-    
-}
-
-extension AddTodoViewController: TagTextSendDelegate {
-    func tagTextSend(_ tagText: String) {
-        model.hashTag = tagText
-        tableView.reloadData()
-    }
 }
 
 extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
@@ -246,13 +232,22 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(todoDateVC, animated: true)
         case 2:
             let todoTagVC = TodoTagViewController()
-            todoTagVC.delegate = self
+            todoTagVC.tagSender = { tag in
+                self.model.hashTag = tag
+                tableView.reloadData()
+            }
             if let hashTag = model.hashTag {
                 todoTagVC.editHashTag = hashTag
             }
             navigationController?.pushViewController(todoTagVC, animated: true)
         case 3:
             let todoPriorityVC = TodoPriorityViewController()
+            todoPriorityVC.prioritySender = { priority in
+                if let priority {
+                    self.model.priority = priority
+                    tableView.reloadData()
+                }
+            }
             navigationController?.pushViewController(todoPriorityVC, animated: true)
         case 4:
             var configuration = PHPickerConfiguration()
