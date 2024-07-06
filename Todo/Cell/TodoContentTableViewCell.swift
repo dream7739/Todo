@@ -23,7 +23,7 @@ final class TodoContentTableViewCell: BaseTableViewCell {
     
     override func configureUI() {
         contentTextView.isScrollEnabled = false
-        contentTextView.font = .systemFont(ofSize: 13)
+        contentTextView.font = Design.Font.tertiary
     }
     
 }

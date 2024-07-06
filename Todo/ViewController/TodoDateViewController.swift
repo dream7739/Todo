@@ -8,8 +8,8 @@
 import UIKit
 import SnapKit
 
-class TodoDateViewController: BaseViewController {
-    let picker = UIDatePicker()
+final class TodoDateViewController: BaseViewController {
+    private let picker = UIDatePicker()
     var dateSender: ((Date) -> Void)?
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -14,9 +14,9 @@ final class TodoListViewController: BaseViewController {
     private let searchBar = UISearchBar()
     private let tableView = UITableView()
     
-    let repository = RealmRepository()
+    private let repository = RealmRepository()
+    private var list: Results<Todo>!
     var option: TodoMainViewController.MainOption!
-    var list: Results<Todo>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +119,7 @@ extension TodoListViewController {
         )
         
         let sort = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: Design.Image.sort,
             menu: menu
         )
         
@@ -130,7 +130,6 @@ extension TodoListViewController {
 
 extension TodoListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //print(searchText)
         let text = searchText.trimmingCharacters(in: .whitespaces)
         
         if text.isEmpty {
@@ -180,7 +179,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             completion(true)
         }
 
-        pin.image = UIImage(systemName: "pin.fill")
+        pin.image = Design.Image.pin
         return UISwipeActionsConfiguration(actions: [pin])
     }
     

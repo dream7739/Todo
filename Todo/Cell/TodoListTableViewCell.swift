@@ -30,9 +30,9 @@ final class TodoListTableViewCell: BaseTableViewCell {
     var isCompleteClicked = false {
         didSet {
             if isCompleteClicked {
-                completeButton.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+                completeButton.setImage(Design.Image.circleFill, for: .normal)
             }else{
-                completeButton.setImage(UIImage(systemName: "circle"), for: .normal)
+                completeButton.setImage(Design.Image.circle, for: .normal)
             }
         }
     }
@@ -94,13 +94,13 @@ final class TodoListTableViewCell: BaseTableViewCell {
         imageStackView.axis = .horizontal
         imageStackView.spacing = 2
         
-        titleLabel.font = .boldSystemFont(ofSize: 17)
-        contentLabel.font = .systemFont(ofSize: 14)
-        deadlineLabel.font = .systemFont(ofSize: 13)
-        tagLabel.font = .boldSystemFont(ofSize: 13)
+        titleLabel.font = Design.Font.primary
+        contentLabel.font = Design.Font.secondary
+        deadlineLabel.font = Design.Font.tertiary
+        tagLabel.font = Design.Font.tertiary
         tagLabel.textColor = .systemBlue
         
-        pinImage.image = UIImage(systemName: "pin.fill")
+        pinImage.image = Design.Image.pin
         pinImage.tintColor = .systemGray
         flagImage.image = Design.Image.flag
         flagImage.tintColor = .systemOrange
@@ -111,9 +111,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         contentLabel.text = data.content
         
         if let deadLine = data.deadLine {
-            let dataFormatter = DateFormatter()
-            dataFormatter.dateFormat = "yyyy.MM.dd."
-            deadlineLabel.text = dataFormatter.string(for: deadLine)
+            deadlineLabel.text = deadLine.formattedString()
         }else{
             deadlineLabel.isHidden = true
         }

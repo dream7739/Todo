@@ -10,12 +10,12 @@ import FSCalendar
 import RealmSwift
 import SnapKit
 
-class TodoCalendarViewController: BaseViewController {
-    let calendar = FSCalendar()
-    let tableView = UITableView()
+final class TodoCalendarViewController: BaseViewController {
+    private let calendar = FSCalendar()
+    private let tableView = UITableView()
     
-    var list: Results<Todo>!
-    let repository = RealmRepository()
+    private var list: Results<Todo>!
+    private let repository = RealmRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,8 @@ class TodoCalendarViewController: BaseViewController {
 }
 
 extension TodoCalendarViewController {
-    @objc func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
+    @objc
+    func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
         if swipe.direction == .up {
             calendar.scope = .week
         } else if swipe.direction == .down {

@@ -61,7 +61,7 @@ final class TodoMainViewController: BaseViewController {
         navigationItem.title = "전체"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let calendar = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: self, action: #selector(calendarButtonClicked))
+        let calendar = UIBarButtonItem(image: Design.Image.calendar, style: .plain, target: self, action: #selector(calendarButtonClicked))
         navigationItem.rightBarButtonItem = calendar
         
         collectionView.delegate = self
@@ -72,7 +72,7 @@ final class TodoMainViewController: BaseViewController {
         )
         
         var todoConfig = UIButton.Configuration.plain()
-        todoConfig.image = UIImage(systemName: "plus.circle.fill")
+        todoConfig.image = Design.Image.plus
         todoConfig.imagePadding = 4
         todoConfig.title = "새로운 할 일"
         addTodoButton.configuration = todoConfig

@@ -10,7 +10,7 @@ import RealmSwift
 
 class Todo: Object {
     @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var title: String
+    @Persisted(indexed: true) var title: String
     @Persisted var content: String?
     @Persisted var deadLine: Date?
     @Persisted var hashTag: String?

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		881D78C82C3917D200E04336 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881D78C72C3917D200E04336 /* DateFormatter+Extension.swift */; };
 		8837DDB42C33E22900D3656A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDB32C33E22900D3656A /* AppDelegate.swift */; };
 		8837DDB62C33E22900D3656A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8837DDB52C33E22900D3656A /* SceneDelegate.swift */; };
 		8837DDBD2C33E22B00D3656A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8837DDBC2C33E22B00D3656A /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		881D78C72C3917D200E04336 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		8837DDB02C33E22900D3656A /* Todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8837DDB32C33E22900D3656A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8837DDB52C33E22900D3656A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				88BAEBBD2C37CB720017D334 /* FileManager+Extension.swift */,
+				881D78C72C3917D200E04336 /* DateFormatter+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				88DCE1C32C3575CB0045E472 /* Design.swift in Sources */,
 				88DCE1C12C3571800045E472 /* BaseCollectionViewCell.swift in Sources */,
 				88BAEBB42C37A1150017D334 /* RealmProtocol.swift in Sources */,
+				881D78C82C3917D200E04336 /* DateFormatter+Extension.swift in Sources */,
 				88BAEBBE2C37CB720017D334 /* FileManager+Extension.swift in Sources */,
 				88B943E72C35375A007CA517 /* TodoTagViewController.swift in Sources */,
 				8837DDD92C33EB3100D3656A /* TodoTitleTableViewCell.swift in Sources */,

@@ -17,7 +17,7 @@ final class AddTodoViewController: BaseViewController {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    let repository = RealmRepository()
+    private let repository = RealmRepository()
     var viewType = Display.ViewType.addTodo
     var image: UIImage?
     var item: Todo!
@@ -63,12 +63,27 @@ final class AddTodoViewController: BaseViewController {
         
         switch viewType {
         case .editTodo:
-            let add = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonClicked))
+            let add = UIBarButtonItem(
+                title: "저장",
+                style: .plain,
+                target: self,
+                action: #selector(saveButtonClicked)
+            )
             navigationItem.rightBarButtonItem = add
         case .addTodo:
-            let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelButtonClicked))
+            let cancel = UIBarButtonItem(
+                title: "취소",
+                style: .plain,
+                target: self,
+                action: #selector(cancelButtonClicked)
+            )
             
-            let add = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(saveButtonClicked))
+            let add = UIBarButtonItem(
+                title: "추가",
+                style: .plain,
+                target: self,
+                action: #selector(saveButtonClicked)
+            )
             
             navigationItem.leftBarButtonItem = cancel
             navigationItem.rightBarButtonItem = add
@@ -179,9 +194,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.accessoryType = .disclosureIndicator
             
             if let deadLine = model.deadLine, indexPath.section == 1 {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy.MM.dd"
-                cell.detailTextLabel?.text = dateFormatter.string(from: deadLine)
+                cell.detailTextLabel?.text = deadLine.formattedString()
             }
             
             if let hashTag = model.hashTag, indexPath.section == 2 {
@@ -222,7 +235,6 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //1: 날짜, 2. 태그, 3: 우선순위, 4: 이미지
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 1:

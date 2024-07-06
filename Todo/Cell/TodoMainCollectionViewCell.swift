@@ -18,8 +18,8 @@ final class TodoMainCollectionViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
         displayView.layer.cornerRadius = 10
         displayView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        titleLabel.font = .systemFont(ofSize: 14)
-        countLabel.font = .systemFont(ofSize: 25, weight: .heavy)
+        titleLabel.font = Design.Font.secondary
+        countLabel.font = Design.Font.heavy
         iconImage.layer.cornerRadius = 15
         iconImage.tintColor = .white
         iconImage.contentMode = .center
