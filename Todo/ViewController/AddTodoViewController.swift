@@ -28,19 +28,18 @@ final class AddTodoViewController: BaseViewController {
             model.deadLine = item.deadLine
             model.hashTag = item.hashTag
             model.priority = item.priority
+            
+            todoInputView.titleTextField.text = model.title
+            
+            if let content = model.content, !content.isEmpty {
+                todoInputView.contentTextView.text = content
+            }
+            
             if let image = loadImageToDocument(filename: "\(item.id)"){
                 self.image = image
             }
         }else{
             item = Todo()
-        }
-        
-        if !model.title.isEmpty {
-            todoInputView.titleTextField.text = model.title
-        }
-        
-        if let content = model.content, !content.isEmpty {
-            todoInputView.contentTextView.text = content
         }
     }
     

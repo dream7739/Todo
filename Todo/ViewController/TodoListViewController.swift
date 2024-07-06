@@ -12,7 +12,7 @@ import Toast
 
 final class TodoListViewController: BaseViewController {
     
-    private let searchBar = UISearchBar()
+    private let searchController = UISearchController(searchResultsController: nil)
     private let tableView = UITableView()
     
     private let repository = RealmRepository()
@@ -24,12 +24,13 @@ final class TodoListViewController: BaseViewController {
         list = repository.fetchList(option)
         configureTableView()
         configureMenu()
-        
-        print(try! Realm().configuration.fileURL)
+  
+        //print(try! Realm().configuration.fileURL)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        list = repository.fetchList(option)
         tableView.reloadData()
         
         NotificationCenter.default.addObserver(
@@ -45,28 +46,33 @@ final class TodoListViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
     override func configureLayout() {
-        searchBar.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-        }
-        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     override func configureUI() {
         navigationItem.title = option.rawValue
-        navigationController?.navigationBar.prefersLargeTitles = true
-        searchBar.delegate = self
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "검색할 제목을 입력하세요"
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
+}
 
-   
+extension TodoListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty{
+            list = repository.fetchList(text)
+        }else{
+            list = repository.fetchList()
+        }
+        tableView.reloadData()
+    }
 }
 
 extension TodoListViewController {
@@ -149,19 +155,6 @@ extension TodoListViewController {
     }
 }
 
-extension TodoListViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let text = searchText.trimmingCharacters(in: .whitespaces)
-        
-        if text.isEmpty {
-            list = repository.fetchList()
-        }else{
-            list = repository.fetchList(text)
-        }
-        
-        tableView.reloadData()
-    }
-}
 extension TodoListViewController: CompletDelegate {
     func completeButtonClicked(indexPath: IndexPath) {
         let item = list[indexPath.row]
