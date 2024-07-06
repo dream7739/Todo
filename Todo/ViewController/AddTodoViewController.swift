@@ -33,6 +33,7 @@ final class AddTodoViewController: BaseViewController {
             
             if let content = model.content, !content.isEmpty {
                 todoInputView.contentTextView.text = content
+                todoInputView.contentTextView.textColor = .black
             }
             
             if let image = loadImageToDocument(filename: "\(item.id)"){

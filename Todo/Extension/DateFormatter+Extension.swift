@@ -24,22 +24,15 @@ extension Date {
         return DateFormatter.dateFormatter.string(from: self)
     }
     
-    func startOfDay() -> Self {
+    func today() -> Self {
         let calendar = Calendar.current
-        let start = calendar.startOfDay(for: Date())
+        let start = calendar.startOfDay(for: self)
         return start
-    }
-    
-    func endOfDay() -> Self {
-        let calendar = Calendar.current
-        let start = calendar.startOfDay(for: Date())
-        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? Date()   
-        return end
     }
     
     func tomorrow() -> Self {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
+        let today = calendar.startOfDay(for: self)
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: today) ?? Date()
         return tomorrow
     }

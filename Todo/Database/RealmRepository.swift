@@ -36,8 +36,8 @@ class RealmRepository: RealmProtocol {
         switch option {
         case .today:
             let date = Date()
-            let start = date.startOfDay()
-            let end = date.endOfDay()
+            let start = date.today()
+            let end = date.tomorrow()
             let predicate = NSPredicate(
                 format: "deadLine >= %@ && deadLine < %@",
                 start as NSDate,
@@ -72,9 +72,8 @@ class RealmRepository: RealmProtocol {
     }
     
     func fetchList(_ date: Date) -> Results<Todo>{
-        let date = Date()
-        let start = date.startOfDay()
-        let end = date.endOfDay()
+        let start = date.today()
+        let end = date.tomorrow()
         let predicate = NSPredicate(
             format: "deadLine >= %@ && deadLine < %@",
             start as NSDate,
