@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TodoInputView: BaseView {
+final class TodoInputView: BaseView {
     let titleTextField = UITextField()
     let seperatorImage = UIImageView()
     let contentTextView = UITextView()
@@ -49,5 +49,24 @@ class TodoInputView: BaseView {
         contentTextView.isScrollEnabled = false
         contentTextView.font = Design.Font.tertiary
         contentTextView.backgroundColor = .clear
+        contentTextView.textColor = .lightGray
+        contentTextView.text = "내용"
+        contentTextView.delegate = self
+    }
+}
+
+extension TodoInputView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = ""
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.textColor == .black && textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = "내용"
+        }
     }
 }
