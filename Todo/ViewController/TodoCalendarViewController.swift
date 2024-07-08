@@ -63,7 +63,7 @@ final class TodoCalendarViewController: BaseViewController {
 
 extension TodoCalendarViewController {
     @objc
-    func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
+    private func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
         if swipe.direction == .up {
             calendar.scope = .week
         } else if swipe.direction == .down {

@@ -39,11 +39,8 @@ final class TodoListTableViewCell: BaseTableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        titleLabel.text = ""
         contentLabel.text = ""
-        deadlineLabel.text = ""
         tagLabel.text = ""
-        
     }
     
     override func configureHierarchy() {
@@ -118,18 +115,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
 
     func configureData(_ data: Todo){
         isCompleteClicked = data.isComplete
-        contentLabel.text = data.content
-        
-        if let deadLine = data.deadLine {
-            deadlineLabel.text = deadLine.formattedString()
-        }else{
-            deadlineLabel.isHidden = true
-        }
-        
-        if let tag = data.hashTag, !tag.trimmingCharacters(in: .whitespaces).isEmpty {
-            tagLabel.text = "#" + tag
-        }
-        
+       
         var priorityText = ""
         var folderName = ""
         
@@ -148,6 +134,21 @@ final class TodoListTableViewCell: BaseTableViewCell {
         }
         
         titleLabel.text = priorityText + folderName + data.title
+        
+        if let content = data.content, !content.isEmpty {
+            contentLabel.text = content
+        }
+
+        if let deadLine = data.deadLine {
+            deadlineLabel.isHidden = false
+            deadlineLabel.text = deadLine.formattedString()
+        }else{
+            deadlineLabel.isHidden = true
+        }
+                
+        if let tag = data.hashTag, !tag.trimmingCharacters(in: .whitespaces).isEmpty {
+            tagLabel.text = "#" + tag
+        }
         
         pinImage.isHidden = data.isFavorite ? false : true
         flagImage.isHidden = data.isFlaged ? false : true

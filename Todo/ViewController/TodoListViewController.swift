@@ -39,9 +39,6 @@ final class TodoListViewController: BaseViewController {
         )
     }
     
-    @objc func saveTodoComplete(){
-        view.makeToast("할 일이 저장되었습니다")
-    }
     
     override func configureHierarchy() {
         view.addSubview(tableView)
@@ -150,6 +147,11 @@ extension TodoListViewController {
         
         navigationItem.rightBarButtonItem = sort
 
+    }
+    
+    @objc
+    private func saveTodoComplete(){
+        view.makeToast("할 일이 저장되었습니다")
     }
 }
 

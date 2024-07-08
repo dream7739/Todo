@@ -15,7 +15,6 @@ final class TodoMainViewController: BaseViewController {
     
     private var countList: [Int] = []
     private let repository = RealmRepository()
-
     private func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 10
@@ -30,6 +29,11 @@ final class TodoMainViewController: BaseViewController {
         return layout
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureCollectionView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -42,10 +46,6 @@ final class TodoMainViewController: BaseViewController {
         
         countList = repository.fetchCountAll()
         collectionView.reloadData()
-    }
-    
-    @objc func saveTodoComplete(){
-        view.makeToast("할 일이 저장되었습니다")
     }
     
     override func configureHierarchy() {
@@ -76,13 +76,6 @@ final class TodoMainViewController: BaseViewController {
         let calendar = UIBarButtonItem(image: Design.Image.calendar, style: .plain, target: self, action: #selector(calendarButtonClicked))
         navigationItem.rightBarButtonItem = calendar
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(
-            TodoMainCollectionViewCell.self,
-            forCellWithReuseIdentifier: TodoMainCollectionViewCell.identifier
-        )
-        
         var todoConfig = UIButton.Configuration.plain()
         todoConfig.image = Design.Image.plus
         todoConfig.imagePadding = 4
@@ -99,7 +92,19 @@ final class TodoMainViewController: BaseViewController {
 }
 
 extension TodoMainViewController {
-
+    private func configureCollectionView(){
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(
+            TodoMainCollectionViewCell.self,
+            forCellWithReuseIdentifier: TodoMainCollectionViewCell.identifier
+        )
+    }
+    
+    @objc
+    private func saveTodoComplete(){
+        view.makeToast("할 일이 저장되었습니다")
+    }
     
     @objc
     private func calendarButtonClicked(){

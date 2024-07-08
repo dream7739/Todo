@@ -12,7 +12,6 @@ final class TodoPriorityViewController: BaseViewController {
     private lazy var segment = UISegmentedControl()
     
     var priority: String?
-    
     var prioritySender: ((String?) -> Void)?
     
     override func viewWillDisappear(_ animated: Bool) {

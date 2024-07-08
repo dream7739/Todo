@@ -12,7 +12,6 @@ import SnapKit
 import Toast
 
 final class FolderTodoListViewController: BaseViewController {
-    
     private let searchController = UISearchController(searchResultsController: nil)
     private let tableView = UITableView()
     
@@ -23,14 +22,6 @@ final class FolderTodoListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        
-        let add = UIBarButtonItem(
-            image: Design.Image.plus,
-            style: .plain,
-            target: self,
-            action: #selector(addTodoButtonClicked)
-        )
-        navigationItem.rightBarButtonItem = add
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,19 +39,7 @@ final class FolderTodoListViewController: BaseViewController {
             object: nil
         )
     }
-    
-    @objc func addTodoButtonClicked(){
-        let addTodoVC = AddTodoViewController()
-        addTodoVC.viewType = .customTodo
-        addTodoVC.folder = folder
- 
-        navigationController?.pushViewController(addTodoVC, animated: true)
-    }
-    
-    @objc func saveTodoComplete(){
-        view.makeToast("할 일이 저장되었습니다")
-    }
-    
+
     override func configureHierarchy() {
         view.addSubview(tableView)
     }
@@ -72,6 +51,13 @@ final class FolderTodoListViewController: BaseViewController {
     }
     
     override func configureUI() {
+        let add = UIBarButtonItem(
+            image: Design.Image.plus,
+            style: .plain,
+            target: self,
+            action: #selector(addTodoButtonClicked)
+        )
+        navigationItem.rightBarButtonItem = add
         navigationItem.title = folder?.name ?? ""
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
@@ -95,6 +81,19 @@ extension FolderTodoListViewController: UISearchResultsUpdating {
 }
 
 extension FolderTodoListViewController {
+    @objc
+    private func addTodoButtonClicked(){
+        let addTodoVC = AddTodoViewController()
+        addTodoVC.viewType = .customTodo
+        addTodoVC.folder = folder
+ 
+        navigationController?.pushViewController(addTodoVC, animated: true)
+    }
+    
+    @objc
+    private func saveTodoComplete(){
+        view.makeToast("할 일이 저장되었습니다")
+    }
     
     private func configureTableView(){
         tableView.rowHeight = 85

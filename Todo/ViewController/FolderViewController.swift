@@ -8,13 +8,13 @@
 import UIKit
 import RealmSwift
 import SnapKit
-import Toast
 
 final class FolderViewController: BaseViewController {
     
     private let tableView = UITableView()
+    
     private let repository = RealmRepository()
-    var list: Results<Folder>!
+    private var list: Results<Folder>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,24 +85,9 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
-            self.showAlert("알림", "정말 삭제하시겠습니까?", "확인") { _ in
-//                let item = self.list[indexPath.row]
-//                self.removeImageFromDocument(filename: "\(item.id)")
-//                self.repository.deleteTodo(item)
-//                tableView.deleteRows(at: [indexPath], with: .none)
-                completion(true)
-            }
-        }
-        
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let data = list[indexPath.row] //폴더 정보
+        let data = list[indexPath.row]
         let folderTodoListVC = FolderTodoListViewController()
         folderTodoListVC.folder = data
         navigationController?.pushViewController(folderTodoListVC, animated: true)

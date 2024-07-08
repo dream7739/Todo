@@ -21,6 +21,7 @@ final class TodoAddTableViewCell: BaseTableViewCell {
         selectedImage.image = nil
         detailLabel.text = nil
     }
+    
     override func configureHierarchy() {
         contentView.addSubview(backView)
         backView.addSubview(titleLabel)

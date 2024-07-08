@@ -23,24 +23,8 @@ final class AddTodoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let item {
-            model.title = item.title
-            model.content = item.content
-            model.deadLine = item.deadLine
-            model.hashTag = item.hashTag
-            model.priority = item.priority
-            
-            todoInputView.titleTextField.text = model.title
-            
-            if let content = model.content, !content.isEmpty {
-                todoInputView.contentTextView.text = content
-                todoInputView.contentTextView.textColor = .black
-            }
-            
-            if let image = loadImageToDocument(filename: "\(item.id)"){
-                self.image = image
-            }
-        }
+        configureNav()
+        configureTableView()
     }
     
     override func configureHierarchy() {
@@ -60,9 +44,40 @@ final class AddTodoViewController: BaseViewController {
     }
     
     override func configureUI() {
+        if let item {
+            model.title = item.title
+            model.content = item.content
+            model.deadLine = item.deadLine
+            model.hashTag = item.hashTag
+            model.priority = item.priority
+            
+            todoInputView.titleTextField.text = model.title
+            
+            if let content = model.content, !content.isEmpty {
+                todoInputView.contentTextView.text = content
+                todoInputView.contentTextView.textColor = .black
+            }
+            
+            if let image = loadImageToDocument(filename: "\(item.id)"){
+                self.image = image
+            }
+        }
+        
+        todoInputView.titleTextField.addTarget(self, action: #selector(titleTextFieldChanged), for: .editingChanged)
+    }
+}
+
+extension AddTodoViewController {
+    enum AddOption: String, CaseIterable {
+        case deadline = "마감일"
+        case tag = "태그"
+        case priority = "우선 순위"
+        case image = "이미지 추가"
+    }
+    
+    private func configureNav(){
         navigationItem.title = viewType.rawValue
         navigationItem.largeTitleDisplayMode = .never
-        
         switch viewType {
         case .editTodo:
             let add = UIBarButtonItem(
@@ -91,9 +106,9 @@ final class AddTodoViewController: BaseViewController {
             navigationItem.rightBarButtonItem = add
             navigationItem.rightBarButtonItem?.isEnabled = false
         }
-        
-        todoInputView.titleTextField.addTarget(self, action: #selector(titleTextFieldChanged), for: .editingChanged)
-        
+    }
+
+    private func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(TodoAddTableViewCell.self, forCellReuseIdentifier: TodoAddTableViewCell.identifier)
@@ -101,19 +116,6 @@ final class AddTodoViewController: BaseViewController {
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
     }
-    
-
-    
-}
-
-extension AddTodoViewController {
-    enum AddOption: String, CaseIterable {
-        case deadline = "마감일"
-        case tag = "태그"
-        case priority = "우선 순위"
-        case image = "이미지 추가"
-    }
-
     
     @objc
     private func cancelButtonClicked(){

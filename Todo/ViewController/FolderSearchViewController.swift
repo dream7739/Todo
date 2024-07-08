@@ -75,7 +75,6 @@ extension FolderSearchViewController: UISearchResultsUpdating {
 }
 
 extension FolderSearchViewController {
-    
     private func configureTableView(){
         tableView.rowHeight = 85
         tableView.delegate = self

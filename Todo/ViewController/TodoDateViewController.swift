@@ -17,7 +17,6 @@ final class TodoDateViewController: BaseViewController {
         dateSender?(picker.date)
     }
     
-    
     override func configureHierarchy() {
         view.addSubview(picker)
     }
