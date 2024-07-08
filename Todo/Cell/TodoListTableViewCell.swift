@@ -126,7 +126,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
             deadlineLabel.isHidden = true
         }
         
-        if let tag = data.hashTag {
+        if let tag = data.hashTag, !tag.trimmingCharacters(in: .whitespaces).isEmpty {
             tagLabel.text = "#" + tag
         }
         

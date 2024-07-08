@@ -40,8 +40,6 @@ final class AddTodoViewController: BaseViewController {
             if let image = loadImageToDocument(filename: "\(item.id)"){
                 self.image = image
             }
-        }else{
-            item = Todo()
         }
     }
     
@@ -135,13 +133,12 @@ extension AddTodoViewController {
             model.content = todoInputView.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
-        if let image {
-            saveImageToDocument(image: image, filename: "\(item.id)")
-        }
-        
         switch viewType {
         case .editTodo:
             repository.editTodo(item, model)
+            if let image {
+                saveImageToDocument(image: image, filename: "\(item.id)")
+            }
             NotificationCenter.default.post(
                 name: NSNotification.Name.saveTodo,
                 object: nil,
@@ -149,7 +146,11 @@ extension AddTodoViewController {
             )
             navigationController?.popViewController(animated: true)
         case .addTodo:
+            item = Todo()
             repository.addTodo(item, model)
+            if let image {
+                saveImageToDocument(image: image, filename: "\(item.id)")
+            }
             NotificationCenter.default.post(
                 name: NSNotification.Name.saveTodo,
                 object: nil,
@@ -158,12 +159,16 @@ extension AddTodoViewController {
             dismiss(animated: true)
         case .customTodo:
             guard let folder else { return }
+            item = Todo()
+            repository.addFolderTodo(item, model, folder)
+            if let image {
+                saveImageToDocument(image: image, filename: "\(item.id)")
+            }
             NotificationCenter.default.post(
                 name: NSNotification.Name.saveTodo,
                 object: nil,
                 userInfo: nil
             )
-            repository.addFolderTodo(item, model, folder)
             navigationController?.popViewController(animated: true)
         }
         
