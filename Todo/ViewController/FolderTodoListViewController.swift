@@ -24,7 +24,12 @@ final class FolderTodoListViewController: BaseViewController {
         super.viewDidLoad()
         configureTableView()
         
-        let add = UIBarButtonItem(image: Design.Image.plus, style: .plain, target: self, action: #selector(addTodoButtonClicked))
+        let add = UIBarButtonItem(
+            image: Design.Image.plus,
+            style: .plain,
+            target: self,
+            action: #selector(addTodoButtonClicked)
+        )
         navigationItem.rightBarButtonItem = add
     }
     
@@ -77,12 +82,15 @@ final class FolderTodoListViewController: BaseViewController {
 
 extension FolderTodoListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-//        if let text = searchController.searchBar.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty{
-//            list = repository.fetchList(text)
-//        }else{
-//            list = repository.fetchList()
-//        }
-//        tableView.reloadData()
+        guard let folder else { return }
+
+        if let text = searchController.searchBar.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty{
+            list = Array(repository.fetchFolderTodo(folder, text))
+        }else{
+            list = Array(repository.fetchFolderTodo(folder))
+        }
+        
+        tableView.reloadData()
     }
 }
 

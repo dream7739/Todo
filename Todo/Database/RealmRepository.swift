@@ -12,7 +12,6 @@ class RealmRepository: RealmProtocol {
     private let realm = try! Realm()
     
     func addFolder(){
-        
         let folderName = ["운동", "공부", "독서", "약속"]
         
         for name in folderName {
@@ -123,6 +122,16 @@ class RealmRepository: RealmProtocol {
         return realm.objects(Todo.self).where {
             $0.title.contains(keyword, options: .caseInsensitive)
         }.sorted(by: [Descripter.favoriteDesc])
+    }
+    
+    func fetchFolderTodo(_ folder: Folder, _ keyword: String) -> Results<Todo>{
+        return folder.detail.where{
+            $0.title.contains(keyword, options: .caseInsensitive)
+        }
+    }
+    
+    func fetchFolderTodo(_ folder: Folder) -> List<Todo>{
+        return folder.detail
     }
     
     func fetchCount(_ option: MainOption) -> Int{
