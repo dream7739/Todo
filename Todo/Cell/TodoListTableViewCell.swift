@@ -120,6 +120,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         isCompleteClicked = data.isComplete
         contentLabel.text = data.content
         
+
         if let deadLine = data.deadLine {
             deadlineLabel.text = deadLine.formattedString()
         }else{
@@ -130,19 +131,24 @@ final class TodoListTableViewCell: BaseTableViewCell {
             tagLabel.text = "#" + tag
         }
         
-        let titleText = data.title
+        var priorityText = ""
+        var folderName = ""
+        
+        if let folder = data.folder.first  {
+            folderName = "[\(folder.name)]"
+        }
         
         if let priority = data.priority {
             if priority == "높음" {
-                titleLabel.text = "⭐️⭐️⭐️ " + titleText
+                priorityText = "⭐️⭐️⭐️ "
             }else if priority == "보통"{
-                titleLabel.text = "⭐️⭐️ " + titleText
+                priorityText = "⭐️⭐️"
             }else{
-                titleLabel.text = "⭐️ " + titleText
+                priorityText = "⭐️"
             }
-        }else{
-            titleLabel.text = titleText
         }
+        
+        titleLabel.text = priorityText + folderName + data.title
         
         pinImage.isHidden = data.isFavorite ? false : true
         flagImage.isHidden = data.isFlaged ? false : true

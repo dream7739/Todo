@@ -28,6 +28,15 @@ final class FolderViewController: BaseViewController {
         }
         
         configureTableView()
+        
+        let search = UIBarButtonItem(image: Design.Image.search, style: .plain, target: self, action: #selector(searchButtonClicked))
+        navigationItem.rightBarButtonItem = search
+    }
+    
+    @objc func searchButtonClicked(){
+        let folderSearchVC = FolderSearchViewController()
+        folderSearchVC.option = .total
+        navigationController?.pushViewController(folderSearchVC, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
