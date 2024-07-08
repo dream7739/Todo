@@ -23,6 +23,9 @@ final class FolderTodoListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
+        
+        let add = UIBarButtonItem(image: Design.Image.plus, style: .plain, target: self, action: #selector(addTodoButtonClicked))
+        navigationItem.rightBarButtonItem = add
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +33,7 @@ final class FolderTodoListViewController: BaseViewController {
         
         if let folder = folder {
             list = Array(folder.detail)
+            tableView.reloadData()
         }
       
         NotificationCenter.default.addObserver(
@@ -38,6 +42,14 @@ final class FolderTodoListViewController: BaseViewController {
             name: Notification.Name.saveTodo,
             object: nil
         )
+    }
+    
+    @objc func addTodoButtonClicked(){
+        let addTodoVC = AddTodoViewController()
+        addTodoVC.viewType = .customTodo
+        addTodoVC.folder = folder
+ 
+        navigationController?.pushViewController(addTodoVC, animated: true)
     }
     
     @objc func saveTodoComplete(){
@@ -156,12 +168,7 @@ extension FolderTodoListViewController: UITableViewDelegate, UITableViewDataSour
     }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let addTodoVC = AddTodoViewController()
-        let item = list[indexPath.row]
-        addTodoVC.viewType = .editTodo
-        addTodoVC.item = item
  
-        navigationController?.pushViewController(addTodoVC, animated: true)
         
     }
     

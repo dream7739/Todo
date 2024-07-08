@@ -37,6 +37,15 @@ final class TodoListTableViewCell: BaseTableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = ""
+        contentLabel.text = ""
+        deadlineLabel.text = ""
+        tagLabel.text = ""
+        
+    }
+    
     override func configureHierarchy() {
         contentView.addSubview(completeButton)
         contentView.addSubview(stackView)
@@ -106,6 +115,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         flagImage.tintColor = .systemOrange
     }
     
+
     func configureData(_ data: Todo){
         isCompleteClicked = data.isComplete
         contentLabel.text = data.content

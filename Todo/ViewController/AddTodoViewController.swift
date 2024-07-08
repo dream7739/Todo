@@ -16,6 +16,7 @@ final class AddTodoViewController: BaseViewController {
     
     private let repository = RealmRepository()
     var viewType = Display.ViewType.addTodo
+    var folder: Folder?
     var image: UIImage?
     var item: Todo!
     var model = TodoModel(title: "")
@@ -73,7 +74,7 @@ final class AddTodoViewController: BaseViewController {
                 action: #selector(saveButtonClicked)
             )
             navigationItem.rightBarButtonItem = add
-        case .addTodo:
+        case .addTodo, .customTodo:
             let cancel = UIBarButtonItem(
                 title: "취소",
                 style: .plain,
@@ -119,7 +120,7 @@ extension AddTodoViewController {
     @objc
     private func cancelButtonClicked(){
         switch viewType {
-        case .editTodo:
+        case .editTodo, .customTodo:
             navigationController?.popViewController(animated: true)
         case .addTodo:
             dismiss(animated: true)
@@ -129,7 +130,10 @@ extension AddTodoViewController {
     @objc
     private func saveButtonClicked(){
         model.title = todoInputView.titleTextField.text!.trimmingCharacters(in: .whitespaces)
-        model.content = todoInputView.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if todoInputView.contentTextView.textColor != .lightGray {
+            model.content = todoInputView.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
         
         if let image {
             saveImageToDocument(image: image, filename: "\(item.id)")
@@ -152,6 +156,15 @@ extension AddTodoViewController {
                 userInfo: nil
             )
             dismiss(animated: true)
+        case .customTodo:
+            guard let folder else { return }
+            NotificationCenter.default.post(
+                name: NSNotification.Name.saveTodo,
+                object: nil,
+                userInfo: nil
+            )
+            repository.addFolderTodo(item, model, folder)
+            navigationController?.popViewController(animated: true)
         }
         
     }
@@ -205,7 +218,6 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function)
         switch indexPath.row {
         case 0:
             let todoDateVC = TodoDateViewController()

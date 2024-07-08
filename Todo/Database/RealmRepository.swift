@@ -42,6 +42,21 @@ class RealmRepository: RealmProtocol {
         }
     }
     
+    func addFolderTodo(_ item: Todo, _ model: TodoModel, _ folder: Folder){
+        do{
+            try realm.write {
+                item.title = model.title
+                item.content = model.content
+                item.deadLine = model.deadLine
+                item.hashTag = model.hashTag
+                item.priority = model.priority
+                folder.detail.append(item)
+            }
+        }catch{
+            print("Add Realm Item Failed")
+        }
+    }
+    
     func fetchFolder() -> Results<Folder>{
         return realm.objects(Folder.self)
     }
@@ -112,6 +127,15 @@ class RealmRepository: RealmProtocol {
     
     func fetchCount(_ option: MainOption) -> Int{
         return fetchList(option).count
+    }
+    
+    func fetchFolderCount() -> Int {
+        let folder = realm.objects(Folder.self)
+        var result = 0
+        for item in folder {
+            result += item.detail.count
+        }
+        return result
     }
     
     func fetchCountAll() -> [Int] {

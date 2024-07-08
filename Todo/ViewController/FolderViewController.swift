@@ -30,6 +30,11 @@ final class FolderViewController: BaseViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func configureHierarchy() {
         view.addSubview(tableView)
     }
@@ -40,8 +45,6 @@ final class FolderViewController: BaseViewController {
         }
     }
     
-    override func configureUI() {
-    }
 }
 
 extension FolderViewController {
@@ -54,14 +57,11 @@ extension FolderViewController {
             forCellReuseIdentifier: "folderCell"
         )
     }
-    
-   
 }
 
 
 extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(#function)
         return list.count
     }
     

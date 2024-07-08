@@ -128,7 +128,13 @@ extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDe
         cell.titleLabel.text = data.rawValue
         cell.iconImage.image = data.iconImage
         cell.iconImage.backgroundColor = data.iconColor
-        cell.countLabel.text = countList[indexPath.item].formatted()
+        
+        if indexPath.item == 5 {
+            cell.countLabel.text = repository.fetchFolderCount().formatted()
+        }else{
+            cell.countLabel.text = countList[indexPath.item].formatted()
+        }
+       
         return cell
     }
     
