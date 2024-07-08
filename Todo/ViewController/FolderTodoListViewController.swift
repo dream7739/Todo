@@ -167,6 +167,7 @@ extension FolderTodoListViewController: UITableViewDelegate, UITableViewDataSour
                 let item = self.list[indexPath.row]
                 self.removeImageFromDocument(filename: "\(item.id)")
                 self.repository.deleteTodo(item)
+                self.list.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .none)
             }
             completion(true)

@@ -120,7 +120,6 @@ final class TodoListTableViewCell: BaseTableViewCell {
         isCompleteClicked = data.isComplete
         contentLabel.text = data.content
         
-
         if let deadLine = data.deadLine {
             deadlineLabel.text = deadLine.formattedString()
         }else{
