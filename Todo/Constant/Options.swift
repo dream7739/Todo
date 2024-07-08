@@ -19,6 +19,7 @@ enum MainOption: String, CaseIterable {
     case total = "전체"
     case flag = "깃발 표시"
     case complete = "완료됨"
+    case user = "사용자 지정"
     
     var iconImage: UIImage {
         switch self {
@@ -32,6 +33,8 @@ enum MainOption: String, CaseIterable {
             return Design.Image.flag
         case .complete:
             return Design.Image.complete
+        case .user:
+            return Design.Image.like
         }
     }
     
@@ -47,6 +50,8 @@ enum MainOption: String, CaseIterable {
             return .systemOrange
         case .complete:
             return .gray
+        case .user:
+            return .systemCyan
         }
     }
 }

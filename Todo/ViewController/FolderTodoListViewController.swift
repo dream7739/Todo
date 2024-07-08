@@ -1,36 +1,37 @@
 //
-//  TodoListViewController.swift
+//  FolderTodoListViewController.swift
 //  Todo
 //
-//  Created by 홍정민 on 7/2/24.
+//  Created by 홍정민 on 7/8/24.
 //
+
 
 import UIKit
 import RealmSwift
 import SnapKit
 import Toast
 
-final class TodoListViewController: BaseViewController {
+final class FolderTodoListViewController: BaseViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     private let tableView = UITableView()
     
     private let repository = RealmRepository()
-    private var list: Results<Todo>!
-    var option: MainOption!
+    private var list: [Todo] = []
+    var folder: Folder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        list = repository.fetchList(option)
         configureTableView()
-        configureMenu()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        list = repository.fetchList(option)
-        tableView.reloadData()
         
+        if let folder = folder {
+            list = Array(folder.detail)
+        }
+      
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(saveTodoComplete),
@@ -54,7 +55,7 @@ final class TodoListViewController: BaseViewController {
     }
     
     override func configureUI() {
-        navigationItem.title = option.rawValue
+        navigationItem.title = folder?.name ?? ""
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "검색할 제목을 입력하세요"
@@ -62,18 +63,18 @@ final class TodoListViewController: BaseViewController {
     }
 }
 
-extension TodoListViewController: UISearchResultsUpdating {
+extension FolderTodoListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty{
-            list = repository.fetchList(text)
-        }else{
-            list = repository.fetchList()
-        }
-        tableView.reloadData()
+//        if let text = searchController.searchBar.text?.trimmingCharacters(in: .whitespaces), !text.isEmpty{
+//            list = repository.fetchList(text)
+//        }else{
+//            list = repository.fetchList()
+//        }
+//        tableView.reloadData()
     }
 }
 
-extension TodoListViewController {
+extension FolderTodoListViewController {
     
     private func configureTableView(){
         tableView.rowHeight = 85
@@ -84,76 +85,10 @@ extension TodoListViewController {
             forCellReuseIdentifier: TodoListTableViewCell.identifier
         )
     }
-    
-    private func configureMenu(){
-        let total = UIAction(title: SortMenuOption.total.rawValue) { _ in
-            self.list = self.repository.fetchList(self.option, .total)
-            self.tableView.reloadData()
-            if !self.list.isEmpty {
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
-        
-        let title = UIAction(title: SortMenuOption.title.rawValue){ _ in
-            self.list = self.repository.fetchList(self.option, .title)
-            self.tableView.reloadData()
-            if !self.list.isEmpty {
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
-        
-        let deadLine = UIAction(title: SortMenuOption.deadLine.rawValue){ _ in
-            self.list = self.repository.fetchList(self.option, .deadLine)
-            self.tableView.reloadData()
-            if !self.list.isEmpty {
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
-        
-        let high = UIAction(title: SortMenuOption.high.rawValue){ _ in
-            self.list = self.repository.fetchList(self.option, .priority(.high))
-            self.tableView.reloadData()
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        }
-        
-        let middle = UIAction(title: SortMenuOption.medium.rawValue){ _ in
-            self.list = self.repository.fetchList(self.option, .priority(.medium))
-            self.tableView.reloadData()
-            if !self.list.isEmpty {
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
-        
-        let row = UIAction(title: SortMenuOption.row.rawValue){ _ in
-            self.list = self.repository.fetchList(self.option, .priority(.row))
-            self.tableView.reloadData()
-            if !self.list.isEmpty {
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
-
-        let priority = UIMenu(
-            title: SortMenuOption.priority.rawValue,
-            children: [high, middle, row]
-        )
-        
-        let menu = UIMenu(
-            title: "",
-            options: .displayInline,
-            children: [total, title, deadLine, priority]
-        )
-        
-        let sort = UIBarButtonItem(
-            image: Design.Image.sort,
-            menu: menu
-        )
-        
-        navigationItem.rightBarButtonItem = sort
-
-    }
+  
 }
 
-extension TodoListViewController: CompletDelegate {
+extension FolderTodoListViewController: CompletDelegate {
     func completeButtonClicked(indexPath: IndexPath) {
         let item = list[indexPath.row]
         var isComplete = item.isComplete
@@ -163,7 +98,7 @@ extension TodoListViewController: CompletDelegate {
     }
 }
 
-extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
+extension FolderTodoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
     }

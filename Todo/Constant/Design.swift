@@ -21,6 +21,7 @@ enum Design {
         static let circle = UIImage(systemName: "circle")!
         static let circleFill = UIImage(systemName: "circle.fill")!
         static let right = UIImage(systemName: "chevron.right")!
+        static let like = UIImage(systemName: "heart.fill")!
     }
     
     enum Font {

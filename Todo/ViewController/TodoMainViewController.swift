@@ -137,8 +137,15 @@ extension TodoMainViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let todoListVC = TodoListViewController()
-        todoListVC.option = MainOption.allCases[indexPath.item]
-        navigationController?.pushViewController(todoListVC, animated: true)
+        
+        if indexPath.item == 5 {
+            let folderVC = FolderViewController()
+            navigationController?.pushViewController(folderVC, animated: true)
+        }else{
+            let todoListVC = TodoListViewController()
+            todoListVC.option = MainOption.allCases[indexPath.item]
+            navigationController?.pushViewController(todoListVC, animated: true)
+        }
+   
     }
 }

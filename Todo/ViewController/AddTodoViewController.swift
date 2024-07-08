@@ -64,9 +64,6 @@ final class AddTodoViewController: BaseViewController {
         navigationItem.title = viewType.rawValue
         navigationItem.largeTitleDisplayMode = .never
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
-        view.addGestureRecognizer(tapGesture)
-        
         switch viewType {
         case .editTodo:
             let add = UIBarButtonItem(
@@ -117,11 +114,7 @@ extension AddTodoViewController {
         case priority = "우선 순위"
         case image = "이미지 추가"
     }
-    
-    @objc
-    private func hideKeyboard(_ sender: Any) {
-        view.endEditing(true)
-    }
+
     
     @objc
     private func cancelButtonClicked(){
@@ -212,6 +205,7 @@ extension AddTodoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function)
         switch indexPath.row {
         case 0:
             let todoDateVC = TodoDateViewController()

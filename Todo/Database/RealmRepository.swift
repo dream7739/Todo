@@ -11,6 +11,22 @@ import RealmSwift
 class RealmRepository: RealmProtocol {
     private let realm = try! Realm()
     
+    func addFolder(){
+        
+        let folderName = ["운동", "공부", "독서", "약속"]
+        
+        for name in folderName {
+            let folder = Folder(name: name)
+            do{
+                try realm.write {
+                    realm.add(folder)
+                }
+            }catch{
+                print("Add Realm Item Failed")
+            }
+        }
+    }
+    
     func addTodo(_ item: Todo, _ model: TodoModel){
         do{
             try realm.write {
@@ -24,6 +40,10 @@ class RealmRepository: RealmProtocol {
         }catch{
             print("Add Realm Item Failed")
         }
+    }
+    
+    func fetchFolder() -> Results<Folder>{
+        return realm.objects(Folder.self)
     }
     
     func fetchList() -> Results<Todo>{
@@ -55,6 +75,8 @@ class RealmRepository: RealmProtocol {
             return list.where{ $0.isFlaged }.sorted(by: [Descripter.favoriteDesc])
         case .complete:
             return list.where{ $0.isComplete }.sorted(by: [Descripter.favoriteDesc])
+        case .user:
+            return list
         }
     }
     
@@ -93,7 +115,7 @@ class RealmRepository: RealmProtocol {
     }
     
     func fetchCountAll() -> [Int] {
-        var result = Array(repeating: 0, count: 5)
+        var result = Array(repeating: 0, count: 6)
         for idx in 0..<MainOption.allCases.count {
             let option = MainOption.allCases[idx]
             result[idx] = fetchCount(option)
@@ -156,6 +178,10 @@ class RealmRepository: RealmProtocol {
         }catch{
             print("delete Realm Item Failed")
         }
+    }
+    
+    func detectRealmURL(){
+        print(realm.configuration.fileURL ?? "")
     }
     
 }
