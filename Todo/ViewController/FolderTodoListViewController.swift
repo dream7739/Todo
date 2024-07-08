@@ -177,8 +177,11 @@ extension FolderTodoListViewController: UITableViewDelegate, UITableViewDataSour
     }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
- 
-        
+        let addTodoVC = AddTodoViewController()
+        let item = list[indexPath.row]
+        addTodoVC.viewType = .editTodo
+        addTodoVC.item = item
+        navigationController?.pushViewController(addTodoVC, animated: true)
     }
     
 }
